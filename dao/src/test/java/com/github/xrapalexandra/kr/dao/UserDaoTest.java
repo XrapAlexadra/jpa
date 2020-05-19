@@ -32,11 +32,11 @@ public class UserDaoTest {
     @Test
     void addUser(){
         User user1 = new User("user11", Role.USER, "user11");
-        UserAddress userAddress = new UserAddress("Rio", "street122", "34");
-        user1.setAddress(userAddress);
+//        UserAddress userAddress = new UserAddress("Rio", "street122", "34");
+//        user1.setAddress(userAddress);
         user1.setId(userDao.addUser(user1));
-        assertNotNull(user1.getId());
-        userDao.delUser(user1.getId());
+//        assertNotNull(userDao.getByLogin("user11").getAddress());
+//        userDao.delUser(user1.getId());
     }
 
     @Test
@@ -88,13 +88,14 @@ public class UserDaoTest {
     @Test
     void updateAddress(){
         User user = new User("user2", Role.USER, "425146");
-        user.setAddress(new UserAddress("Minsk", "lenina", "10a"));
-        UserAddress newAddress = new UserAddress("Minsk", "Jinovicha", "5");
         user.setId(userDao.addUser(user));
-        user.setAddress(newAddress);
+        user.setAddress(new UserAddress("Minsk", "lenina", "10a"));
+        user.getAddress().setId(userDao.addAddress(user));
+        user.getAddress().setCity("Rio");
         userDao.updateAddress(user);
-        assertEquals(newAddress, userDao.getByLogin("user2").getAddress());
+        assertEquals(user.getAddress(), userDao.getUserAddress(user.getId()));
         userDao.delUser(user.getId());
+
     }
 //    @Test
 //    void addAdmin (){

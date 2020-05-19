@@ -9,6 +9,7 @@ public class UserAddressConverter {
         if (address == null)
             return null;
         final UserAddressEntity userAddressEntity = new UserAddressEntity();
+        userAddressEntity.setId(address.getId());
         userAddressEntity.setBuilding(address.getBuilding());
         userAddressEntity.setCity(address.getCity());
         userAddressEntity.setStreet(address.getStreet());
@@ -18,10 +19,12 @@ public class UserAddressConverter {
     public static UserAddress fromEntity(UserAddressEntity address){
         if (address == null)
             return null;
-        return new UserAddress(
+        UserAddress userAddress =  new UserAddress(
                 address.getCity(),
                 address.getStreet(),
                 address.getBuilding()
         );
+        userAddress.setId(address.getId());
+        return userAddress;
     }
 }

@@ -5,10 +5,22 @@ import javax.persistence.*;
 @MappedSuperclass
 public abstract class AddressEntity {
 
+    private Integer id;
     private String city;
     private String street;
     private String building;
 
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getCity() {
         return city;

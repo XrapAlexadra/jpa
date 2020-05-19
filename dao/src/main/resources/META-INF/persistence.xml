@@ -10,6 +10,8 @@
         <class>com.github.xrapalexandra.kr.dao.entity.RatingEntity</class>
         <class>com.github.xrapalexandra.kr.dao.entity.OrderEntity</class>
         <class>com.github.xrapalexandra.kr.dao.entity.OrderContentEntity</class>
+        <class>com.github.xrapalexandra.kr.dao.entity.UserAddressEntity</class>
+
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
@@ -22,7 +24,7 @@
             <property name="hibernate.use_sql_comments" value="false"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.connection.pool_size" value="10"/>
+
         </properties>
     </persistence-unit>
 </persistence>
-        <!--        validate-->

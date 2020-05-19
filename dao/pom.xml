@@ -17,6 +17,7 @@
     <c3p0.version>0.9.5.4</c3p0.version>
     <mariadb-java-client.version>2.1.2</mariadb-java-client.version>
     <hibernate-core.version>5.4.14.Final</hibernate-core.version>
+    <hibernate-envers.version>5.4.15.Final</hibernate-envers.version>
   </properties>
 
   <dependencies>
@@ -40,6 +41,10 @@
       <artifactId>hibernate-core</artifactId>
       <version>${hibernate-core.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-envers</artifactId>
+      <version>${hibernate-envers.version}</version>
+    </dependency>
   </dependencies>
 </project>

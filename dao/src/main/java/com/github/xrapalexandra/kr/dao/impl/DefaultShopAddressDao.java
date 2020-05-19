@@ -62,7 +62,9 @@ public class DefaultShopAddressDao implements ShopAddressDao {
     @Override
     public List<ShopAddress> getAddressList() {
         Session session = HibernateUtil.getSession();
-        final List<ShopAddressEntity> addressList = session.createQuery("FROM ShopAddressEntity").list();
+        final List<ShopAddressEntity> addressList = session
+                .createQuery("FROM ShopAddressEntity", ShopAddressEntity.class)
+                .list();
         return addressList.stream()
                 .map(ShopAddressConverter::fromEntity)
                 .collect(Collectors.toList());

@@ -13,7 +13,6 @@ public class UserConverter {
         userEntity.setLogin(user.getLogin());
         userEntity.setPass(user.getPass());
         userEntity.setRole(user.getRole());
-        userEntity.setAddress(UserAddressConverter.toEntity(user.getAddress()));
         return userEntity;
     }
 
@@ -26,7 +25,6 @@ public class UserConverter {
                 userEntity.getPass()
         );
         user.setId(userEntity.getId());
-        user.setAddress(UserAddressConverter.fromEntity(userEntity.getAddress()));
         return user;
     }
 

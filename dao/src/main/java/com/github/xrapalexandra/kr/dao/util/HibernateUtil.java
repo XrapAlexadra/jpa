@@ -15,7 +15,7 @@ public class HibernateUtil {
         return emFactory.createEntityManager().unwrap(Session.class);
     }
 
-    private static void closeEMFactory(){
+    private static void closeSession(){
         emFactory.close();
     }
 
