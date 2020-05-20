@@ -3,15 +3,20 @@ package com.github.xrapalexandra.kr.dao.impl;
 import com.github.xrapalexandra.kr.dao.ProductDao;
 import com.github.xrapalexandra.kr.dao.converter.ProductConverter;
 import com.github.xrapalexandra.kr.dao.entity.ProductEntity;
-import com.github.xrapalexandra.kr.dao.util.AddItemUtil;
+import com.github.xrapalexandra.kr.dao.util.DaoUtil;
 import com.github.xrapalexandra.kr.dao.util.HibernateUtil;
 import com.github.xrapalexandra.kr.model.Product;
 import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class DefaultProductDao implements ProductDao {
+
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static volatile ProductDao instance;
 
@@ -31,10 +36,18 @@ public class DefaultProductDao implements ProductDao {
     @Override
     public Integer addProduct(Product product) {
         ProductEntity productEntity = ProductConverter.toEntity(product);
-        productEntity = AddItemUtil.addItem(productEntity);
-        if (productEntity == null)
+        final Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+        try {
+            session.save(productEntity);
+            session.getTransaction().commit();
+            logger.info("{} add in database (products).", productEntity);
+            return productEntity.getId();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            logger.info("{} is already exist in database", productEntity);
             return null;
-        return productEntity.getId();
+        }
     }
 
     final int MAX_RESULTS = 8;
@@ -42,13 +55,13 @@ public class DefaultProductDao implements ProductDao {
     @Override
     public Integer getPageCount() {
         final Session session = HibernateUtil.getSession();
-        int productCount =session.createQuery("select count(p.id) from ProductEntity  p",Long.class)
+        int productCount = session.createQuery("select count(p.id) from ProductEntity  p", Long.class)
                 .getSingleResult()
                 .intValue();
         Integer result = (productCount / MAX_RESULTS);
         if (productCount % MAX_RESULTS != 0)
             result++;
-        return  result;
+        return result;
     }
 
     @Override
@@ -80,9 +93,11 @@ public class DefaultProductDao implements ProductDao {
                     .setParameter("productId", productId)
                     .executeUpdate();
             session.getTransaction().commit();
+            logger.info("product {} don't delete from database", productId);
             return true;
         } catch (Exception e) {
             session.getTransaction().rollback();
+            logger.info("Delete product with ID: {} from database.", productId);
             return false;
         }
     }
@@ -93,15 +108,13 @@ public class DefaultProductDao implements ProductDao {
         session.beginTransaction();
         try {
             ProductEntity productEntity = session.get(ProductEntity.class, product.getId());
-            productEntity.setName(product.getName());
-            productEntity.setPrice(product.getPrice());
-            productEntity.setQuantity(product.getQuantity());
-            productEntity.setDescription(product.getDescription());
-            productEntity.setImage(product.getImage());
+            DaoUtil.setNewValues(product, productEntity);
             session.getTransaction().commit();
+            logger.info("{} update in database.", productEntity);
             return true;
         } catch (Exception e) {
             session.getTransaction().rollback();
+            logger.info("{} is already exist in database.", product.getName());
             return false;
         }
     }

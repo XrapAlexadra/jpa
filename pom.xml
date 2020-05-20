@@ -28,7 +28,8 @@
         <cobertura-maven-plugin2.version>${cobertura-maven-plugin.version}</cobertura-maven-plugin2.version>
         <mockito-core.version>3.1.0</mockito-core.version>
         <cobertura.version>2.1.1</cobertura.version>
-
+        <slf4j-api.version>1.7.28</slf4j-api.version>
+        <log4j-core.version>2.12.1</log4j-core.version>
     </properties>
 
     <dependencies>
@@ -61,6 +62,21 @@
             <artifactId>cobertura</artifactId>
             <version>${cobertura.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j-core.version}</version>
         </dependency>
 
     </dependencies>

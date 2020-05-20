@@ -23,4 +23,17 @@
     <servlet-name>ChangeProductServlet</servlet-name>
     <servlet-name>DelShopAddressServlet</servlet-name>
   </filter-mapping>
+
+  <filter>
+    <filter-name>EncodingSetterFilter</filter-name>
+    <filter-class>com.github.xrapalexandra.kr.web.filter.EncodingSetterFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>EncodingSetterFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>

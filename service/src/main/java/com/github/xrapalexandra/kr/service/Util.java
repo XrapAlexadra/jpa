@@ -7,11 +7,12 @@ import java.util.List;
 
 public class Util {
 
-    public static Boolean isUserExist(List<Rating> ratingList, User user){
-        for(Rating i: ratingList){
-            if(i.getUser().getId().equals(user.getId()))
-                return true;
-        }
+    public static Boolean isUserExist(List<Rating> ratingList, User user) {
+        if (ratingList != null)
+            for (Rating i : ratingList) {
+                if (i.getUser().getId().equals(user.getId()))
+                    return true;
+            }
         return false;
     }
 }

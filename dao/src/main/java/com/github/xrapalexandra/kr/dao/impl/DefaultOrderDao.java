@@ -10,13 +10,18 @@ import com.github.xrapalexandra.kr.model.Order;
 import com.github.xrapalexandra.kr.model.OrderContent;
 import com.github.xrapalexandra.kr.model.Status;
 import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class DefaultOrderDao implements OrderDao {
 
     private static volatile OrderDao instance;
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
 
     public static OrderDao getInstance() {
         OrderDao localInstance = instance;
@@ -41,6 +46,7 @@ public class DefaultOrderDao implements OrderDao {
             session.get(OrderContentEntity.class, i.getId()).setOrder(orderEntity);
         }
         session.getTransaction().commit();
+        logger.info("{} add into DataBase", orderEntity);
         return orderEntity.getId();
     }
 
@@ -51,6 +57,7 @@ public class DefaultOrderDao implements OrderDao {
         OrderEntity orderEntity = session.get(OrderEntity.class, orderId);
         session.delete(orderEntity);
         session.getTransaction().commit();
+        logger.info("{} delete from DataBase", orderId);
     }
 
     @Override
@@ -85,6 +92,7 @@ public class DefaultOrderDao implements OrderDao {
         OrderEntity orderEntity = session.get(OrderEntity.class, orderId);
         orderEntity.setStatus(status);
         session.getTransaction().commit();
+        logger.info("Order id {} change status {}.", orderId, status);
     }
 
     @Override
@@ -110,6 +118,7 @@ public class DefaultOrderDao implements OrderDao {
             productEntity.setQuantity(resultQuantity);
         }
         session.getTransaction().commit();
+        logger.info("Update products quantity with order id{}", order.getId());
     }
 
 }

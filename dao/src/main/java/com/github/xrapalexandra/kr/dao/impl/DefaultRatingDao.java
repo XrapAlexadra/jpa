@@ -9,14 +9,19 @@ import com.github.xrapalexandra.kr.dao.util.HibernateUtil;
 import com.github.xrapalexandra.kr.model.Product;
 import com.github.xrapalexandra.kr.model.Rating;
 import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class DefaultRatingDao implements RatingDao {
+
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static volatile RatingDao instance;
 
@@ -40,6 +45,7 @@ public class DefaultRatingDao implements RatingDao {
         session.beginTransaction();
         session.save(ratingEntity);
         session.getTransaction().commit();
+        logger.info("Add {} into DataBase.", ratingEntity);
         return ratingEntity.getId();
     }
 
@@ -51,6 +57,7 @@ public class DefaultRatingDao implements RatingDao {
         System.out.println(ratingEntity);
         session.delete(ratingEntity);
         session.getTransaction().commit();
+        logger.info("Delete {} from DataBase.", ratingId);
     }
 
     @Override
@@ -79,6 +86,4 @@ public class DefaultRatingDao implements RatingDao {
                 .map(RatingConverter::fromEntity)
                 .collect(Collectors.toList());
     }
-
-
 }

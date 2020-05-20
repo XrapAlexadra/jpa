@@ -9,10 +9,15 @@ import com.github.xrapalexandra.kr.dao.util.HibernateUtil;
 import com.github.xrapalexandra.kr.model.User;
 import com.github.xrapalexandra.kr.model.UserAddress;
 import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.NoResultException;
+import java.lang.invoke.MethodHandles;
 
 public class DefaultUserDao implements UserDao {
+
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static volatile UserDao instance;
 
@@ -39,9 +44,11 @@ public class DefaultUserDao implements UserDao {
         try {
             session.save(userEntity);
             session.getTransaction().commit();
+            logger.info("Save user: {} in table users.", user.getLogin());
             return userEntity.getId();
         } catch (Exception e) {
             session.getTransaction().rollback();
+            logger.info("Can't save user: {} in the table users, because user with this login is already exist!", user.getLogin());
             return null;
         }
     }
@@ -68,9 +75,11 @@ public class DefaultUserDao implements UserDao {
             UserEntity userEntity = session.get(UserEntity.class, userId);
             session.delete(userEntity);
             session.getTransaction().commit();
+            logger.info("User {} delete.", userId);
             return true;
         } catch (Exception e) {
             session.getTransaction().rollback();
+            logger.info("User {} can't delete.", userId);
             return false;
         }
     }
@@ -84,6 +93,7 @@ public class DefaultUserDao implements UserDao {
                 .setParameter("pass", user.getPass())
                 .executeUpdate();
         session.getTransaction().commit();
+        logger.info("User {} update pass.", user.getId());
     }
 
     @Override
@@ -97,6 +107,7 @@ public class DefaultUserDao implements UserDao {
                 .setParameter("city", user.getAddress().getCity())
                 .executeUpdate();
         session.getTransaction().commit();
+        logger.info("User {} update address by {}.", user.getId(), user.getAddress());
     }
 
     @Override

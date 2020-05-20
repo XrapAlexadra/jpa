@@ -59,6 +59,5 @@ public class DefaultRatingService implements RatingService {
         if (average == null)
             return null;
         return (int) Math.round(average);
-
     }
 }

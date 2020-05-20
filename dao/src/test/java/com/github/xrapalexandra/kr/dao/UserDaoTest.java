@@ -32,11 +32,9 @@ public class UserDaoTest {
     @Test
     void addUser(){
         User user1 = new User("user11", Role.USER, "user11");
-//        UserAddress userAddress = new UserAddress("Rio", "street122", "34");
-//        user1.setAddress(userAddress);
         user1.setId(userDao.addUser(user1));
-//        assertNotNull(userDao.getByLogin("user11").getAddress());
-//        userDao.delUser(user1.getId());
+        assertNotNull(userDao.getByLogin("user11"));
+        userDao.delUser(user1.getId());
     }
 
     @Test
@@ -70,7 +68,9 @@ public class UserDaoTest {
         orderContentList.add(orderContent);
         Order order = new Order(user, orderContentList, Status.ORDER);
         order.setId(orderDao.addOrder(order));
+
         assertFalse(userDao.delUser(user.getId()));
+
         orderDao.delOrder(order.getId());
         productDao.delProduct(product.getId());
        userDao.delUser(user.getId());

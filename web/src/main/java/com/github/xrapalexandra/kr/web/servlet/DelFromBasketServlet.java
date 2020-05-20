@@ -15,7 +15,7 @@ public class DelFromBasketServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            resp.sendRedirect("/web/shopAddress");
+            resp.sendRedirect("/web/basket");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

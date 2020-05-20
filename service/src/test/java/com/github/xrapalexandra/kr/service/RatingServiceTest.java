@@ -31,8 +31,9 @@ public class RatingServiceTest {
     private DefaultRatingService ratingService;
 
 
+
     @Test
-    public void addRating(){
+    public void addRatingNull(){
         Product product = new Product("name", 12, 34);
         product.setId(12);
         User user = new User("login12", Role.USER, "jhsdjkfh");
@@ -44,6 +45,27 @@ public class RatingServiceTest {
         ratingList.add(rating);
 
         when(ratingDao.getProductRating(any())).thenReturn(ratingList);
+
         assertNull(ratingService.addRating(newRating));
+    }
+
+    @Test
+    public void addRating(){
+        Product product = new Product("smt1", 12, 34);
+        product.setId(12);
+        User user = new User("login13", Role.USER, "jhsdjkfh");
+        user.setId(10);
+        Rating rating = new Rating(5, user, product);
+        Integer ratingId = 12;
+
+        when(ratingDao.addRating(any())).thenReturn(ratingId);
+        when(ratingDao.getProductRating(any())).thenReturn(null);
+
+        assertEquals(ratingId, ratingService.addRating(rating));
+    }
+
+    @Test
+    public void getInstance(){
+        assertNotNull(DefaultRatingService.getInstance());
     }
 }
