@@ -6,6 +6,7 @@ import com.github.xrapalexandra.kr.dao.entity.ShopAddressEntity;
 import com.github.xrapalexandra.kr.dao.util.HibernateUtil;
 import com.github.xrapalexandra.kr.model.ShopAddress;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +43,7 @@ public class DefaultShopAddressDao implements ShopAddressDao {
         session.save(shopAddressEntity);
         session.getTransaction().commit();
         logger.info("Add {} into DataBase.", shopAddressEntity);
-
+        session.close();
         return shopAddressEntity.getId();
     }
 
@@ -54,6 +55,7 @@ public class DefaultShopAddressDao implements ShopAddressDao {
         session.delete(address);
         session.getTransaction().commit();
         logger.info("Delete {} from DataBase.", shopAddressId);
+        session.close();
     }
 
     @Override
@@ -66,14 +68,17 @@ public class DefaultShopAddressDao implements ShopAddressDao {
         address.setCity(shopAddress.getCity());
         session.getTransaction().commit();
         logger.info("Update in DataBase to {}", address);
+        session.close();
     }
 
     @Override
     public List<ShopAddress> getAddressList() {
         Session session = HibernateUtil.getSession();
-        final List<ShopAddressEntity> addressList = session
-                .createQuery("FROM ShopAddressEntity", ShopAddressEntity.class)
-                .list();
+        Query query = session
+                .createQuery("FROM ShopAddressEntity");
+        query.setCacheable(true);
+        final List<ShopAddressEntity> addressList =query.getResultList();
+        session.close();
         return addressList.stream()
                 .map(ShopAddressConverter::fromEntity)
                 .collect(Collectors.toList());

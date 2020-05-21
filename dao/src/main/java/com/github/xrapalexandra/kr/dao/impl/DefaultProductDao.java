@@ -48,6 +48,9 @@ public class DefaultProductDao implements ProductDao {
             logger.info("{} is already exist in database", productEntity);
             return null;
         }
+        finally {
+            session.close();
+        }
     }
 
     final int MAX_RESULTS = 8;
@@ -58,6 +61,7 @@ public class DefaultProductDao implements ProductDao {
         int productCount = session.createQuery("select count(p.id) from ProductEntity  p", Long.class)
                 .getSingleResult()
                 .intValue();
+        session.close();
         Integer result = (productCount / MAX_RESULTS);
         if (productCount % MAX_RESULTS != 0)
             result++;
@@ -72,6 +76,7 @@ public class DefaultProductDao implements ProductDao {
                 .setMaxResults(MAX_RESULTS)
                 .setFirstResult((page - 1) * MAX_RESULTS)
                 .list();
+        session.close();
         return productList.stream()
                 .map(ProductConverter::fromEntity)
                 .collect(Collectors.toList());
@@ -81,6 +86,7 @@ public class DefaultProductDao implements ProductDao {
     public Product getProductById(Integer id) {
         final Session session = HibernateUtil.getSession();
         ProductEntity productEntity = session.get(ProductEntity.class, id);
+        session.close();
         return ProductConverter.fromEntity(productEntity);
     }
 
@@ -100,6 +106,9 @@ public class DefaultProductDao implements ProductDao {
             logger.info("Delete product with ID: {} from database.", productId);
             return false;
         }
+        finally {
+            session.close();
+        }
     }
 
     @Override
@@ -116,6 +125,9 @@ public class DefaultProductDao implements ProductDao {
             session.getTransaction().rollback();
             logger.info("{} is already exist in database.", product.getName());
             return false;
+        }
+        finally {
+            session.close();
         }
     }
 }

@@ -46,6 +46,7 @@ public class DefaultRatingDao implements RatingDao {
         session.save(ratingEntity);
         session.getTransaction().commit();
         logger.info("Add {} into DataBase.", ratingEntity);
+        session.close();
         return ratingEntity.getId();
     }
 
@@ -58,6 +59,7 @@ public class DefaultRatingDao implements RatingDao {
         session.delete(ratingEntity);
         session.getTransaction().commit();
         logger.info("Delete {} from DataBase.", ratingId);
+        session.close();
     }
 
     @Override
@@ -72,7 +74,7 @@ public class DefaultRatingDao implements RatingDao {
         criteria.where(cb.equal(rating.get("product"), productEntity));
         criteria.select(cb.avg(rating.get("mark")));
         Double average = session.createQuery(criteria).getSingleResult();
-
+        session.close();
         return average;
     }
 
@@ -81,7 +83,7 @@ public class DefaultRatingDao implements RatingDao {
         final Session session = HibernateUtil.getSession();
         ProductEntity productEntity = session.get(ProductEntity.class, productId);
         List<RatingEntity> ratingList = productEntity.getRatingList();
-
+        session.close();
         return ratingList.stream()
                 .map(RatingConverter::fromEntity)
                 .collect(Collectors.toList());

@@ -47,6 +47,7 @@ public class DefaultOrderDao implements OrderDao {
         }
         session.getTransaction().commit();
         logger.info("{} add into DataBase", orderEntity);
+        session.close();
         return orderEntity.getId();
     }
 
@@ -58,12 +59,14 @@ public class DefaultOrderDao implements OrderDao {
         session.delete(orderEntity);
         session.getTransaction().commit();
         logger.info("{} delete from DataBase", orderId);
+        session.close();
     }
 
     @Override
     public List<Order> getAllOrders(int page) {
         final Session session = HibernateUtil.getSession();
         List<OrderEntity> orderList = session.createQuery("FROM OrderEntity ", OrderEntity.class).list();
+        session.close();
         if (orderList.isEmpty())
             return null;
         return orderList.stream()
@@ -78,6 +81,7 @@ public class DefaultOrderDao implements OrderDao {
                 .createQuery("FROM OrderEntity WHERE user.id = :userId ", OrderEntity.class)
                 .setParameter("userId", userId)
                 .list();
+        session.close();
         if (orderList.isEmpty())
             return null;
         return orderList.stream()
@@ -93,6 +97,7 @@ public class DefaultOrderDao implements OrderDao {
         orderEntity.setStatus(status);
         session.getTransaction().commit();
         logger.info("Order id {} change status {}.", orderId, status);
+        session.close();
     }
 
     @Override
@@ -101,6 +106,7 @@ public class DefaultOrderDao implements OrderDao {
         List<OrderEntity> orderList = session.createQuery("FROM OrderEntity WHERE status = :status", OrderEntity.class)
                 .setParameter("status", Status.PAID)
                 .list();
+        session.close();
         if (orderList.isEmpty())
             return null;
         return orderList.stream()
@@ -119,6 +125,7 @@ public class DefaultOrderDao implements OrderDao {
         }
         session.getTransaction().commit();
         logger.info("Update products quantity with order id{}", order.getId());
+        session.close();
     }
 
 }

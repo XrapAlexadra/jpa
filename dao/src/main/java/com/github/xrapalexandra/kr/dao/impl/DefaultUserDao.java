@@ -51,12 +51,14 @@ public class DefaultUserDao implements UserDao {
             logger.info("Can't save user: {} in the table users, because user with this login is already exist!", user.getLogin());
             return null;
         }
+        finally {
+            session.close();
+        }
     }
 
     @Override
     public User getByLogin(String login) {
-        try {
-            final Session session = HibernateUtil.getSession();
+        try (Session session = HibernateUtil.getSession()){
             UserEntity userEntity = (UserEntity) session
                     .createQuery("FROM UserEntity u WHERE  u.login = :login")
                     .setParameter("login", login)
@@ -82,6 +84,9 @@ public class DefaultUserDao implements UserDao {
             logger.info("User {} can't delete.", userId);
             return false;
         }
+        finally {
+            session.close();
+        }
     }
 
     @Override
@@ -93,6 +98,7 @@ public class DefaultUserDao implements UserDao {
                 .setParameter("pass", user.getPass())
                 .executeUpdate();
         session.getTransaction().commit();
+        session.close();
         logger.info("User {} update pass.", user.getId());
     }
 
@@ -107,6 +113,7 @@ public class DefaultUserDao implements UserDao {
                 .setParameter("city", user.getAddress().getCity())
                 .executeUpdate();
         session.getTransaction().commit();
+        session.close();
         logger.info("User {} update address by {}.", user.getId(), user.getAddress());
     }
 
@@ -120,6 +127,7 @@ public class DefaultUserDao implements UserDao {
         userAddressEntity.setUser(userEntity);
         userEntity.setAddress(userAddressEntity);
         session.getTransaction().commit();
+        session.close();
         return userAddressEntity.getId();
     }
 

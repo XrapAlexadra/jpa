@@ -5,7 +5,7 @@ import com.github.xrapalexandra.kr.dao.impl.DefaultRatingDao;
 import com.github.xrapalexandra.kr.model.Product;
 import com.github.xrapalexandra.kr.model.Rating;
 import com.github.xrapalexandra.kr.service.RatingService;
-import com.github.xrapalexandra.kr.service.Util;
+import com.github.xrapalexandra.kr.service.util.ServiceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +38,7 @@ public class DefaultRatingService implements RatingService {
     @Override
     public Integer addRating(Rating rating) {
         List<Rating> ratingList = ratingDao.getProductRating(rating.getProduct().getId());
-        if (Util.isUserExist(ratingList, rating.getUser())) {
+        if (ServiceUtil.isUserExist(ratingList, rating.getUser())) {
             logger.info("Not add {} into DataBase.", rating);
             return null;
         }

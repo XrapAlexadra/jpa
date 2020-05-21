@@ -1,11 +1,11 @@
-package com.github.xrapalexandra.kr.service;
+package com.github.xrapalexandra.kr.service.util;
 
 import com.github.xrapalexandra.kr.model.Rating;
 import com.github.xrapalexandra.kr.model.User;
 
 import java.util.List;
 
-public class Util {
+public class ServiceUtil {
 
     public static Boolean isUserExist(List<Rating> ratingList, User user) {
         if (ratingList != null)
