@@ -3,6 +3,7 @@ package com.github.xrapalexandra.kr.service.impl;
 import com.github.xrapalexandra.kr.dao.UserDao;
 import com.github.xrapalexandra.kr.dao.impl.DefaultUserDao;
 import com.github.xrapalexandra.kr.model.User;
+import com.github.xrapalexandra.kr.model.UserAddress;
 import com.github.xrapalexandra.kr.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +67,19 @@ public class DefaultUserService implements UserService {
 
     @Override
     public void updateAddress(User user) {
-        userDao.updateAddress(user);
-        logger.info("User {} update address by {}.", user.getId(), user.getAddress());
+        UserAddress userAddress = userDao.getUserAddress(user.getId());
+        if(userAddress == null){
+            userDao.addAddress(user);
+            logger.info("User {} add address {}.", user.getId(), user.getAddress());
+        }
+        else {
+            userDao.updateAddress(user);
+            logger.info("User {} update address by {}.", user.getId(), user.getAddress());
+        }
+    }
+
+    @Override
+    public UserAddress getUserAddress(Integer userId) {
+        return userDao.getUserAddress(userId);
     }
 }

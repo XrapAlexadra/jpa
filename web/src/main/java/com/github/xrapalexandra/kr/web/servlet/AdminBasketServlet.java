@@ -1,6 +1,5 @@
 package com.github.xrapalexandra.kr.web.servlet;
 
-import com.github.xrapalexandra.kr.model.Order;
 import com.github.xrapalexandra.kr.service.OrderService;
 import com.github.xrapalexandra.kr.service.impl.DefaultOrderService;
 import com.github.xrapalexandra.kr.web.WebUtils;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(name = "AdminBasketServlet", urlPatterns = {"/adminBasket"})
 public class AdminBasketServlet extends HttpServlet {
@@ -26,15 +24,11 @@ public class AdminBasketServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-            List<Order> paidOrders = orderService.getPaidOrders();
-            for( Order order: paidOrders){
-                orderService.updateProductQuantity(order);
-                orderService.delOrder(order.getId());
-            }
-            try {
-                resp.sendRedirect("/web/adminBasket");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        orderService.writeOffOrders();
+        try {
+            resp.sendRedirect("/web/adminBasket");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

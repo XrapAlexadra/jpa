@@ -56,19 +56,14 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-    public List<Order> getPaidOrders() {
-        return orderDao.getPaidOrders();
-    }
-
-    @Override
-    public void delOrder(Integer orderId) {
-        orderDao.delOrder(orderId);
-        logger.info("{} delete from DataBase", orderId);
-    }
-
-    @Override
-    public void updateProductQuantity(Order order) {
-        orderDao.updateProductQuantity(order);
-        logger.info("Update products quantity with order id{}", order);
+    public void writeOffOrders() {
+        List<Order> paidOrders = orderDao.getPaidOrders();
+        if (paidOrders != null)
+            for (Order order : paidOrders) {
+                orderDao.updateProductQuantity(order);
+                logger.info("Update products quantity with order id{}", order);
+                orderDao.delOrder(order.getId());
+                logger.info("{} delete from DataBase", order.getId());
+            }
     }
 }

@@ -82,10 +82,10 @@ public class DefaultRatingDao implements RatingDao {
     public List<Rating> getProductRating(Integer productId) {
         final Session session = HibernateUtil.getSession();
         ProductEntity productEntity = session.get(ProductEntity.class, productId);
-        List<RatingEntity> ratingList = productEntity.getRatingList();
-        session.close();
-        return ratingList.stream()
+        List<Rating> ratingList = productEntity.getRatingList().stream()
                 .map(RatingConverter::fromEntity)
                 .collect(Collectors.toList());
+        session.close();
+        return ratingList;
     }
 }

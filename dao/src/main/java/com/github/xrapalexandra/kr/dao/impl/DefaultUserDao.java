@@ -133,6 +133,8 @@ public class DefaultUserDao implements UserDao {
 
     @Override
     public UserAddress getUserAddress(Integer userId) {
+        if( userId == null)
+            return null;
         final Session session = HibernateUtil.getSession();
         UserEntity userEntity = session.get(UserEntity.class, userId);
         UserAddressEntity userAddressEntity = userEntity.getAddress();

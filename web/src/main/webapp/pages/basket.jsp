@@ -3,10 +3,12 @@
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="basket-tab" data-toggle="tab" href="#basket" role="tab" aria-controls="home" aria-selected="true">Корзина</a>
+        <a class="nav-link active" id="basket-tab" data-toggle="tab" href="#basket" role="tab" aria-controls="basket"
+           aria-selected="true">Корзина</a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" id="order-tab" data-toggle="tab" href="#order" role="tab" aria-controls="contact" aria-selected="false">Мои заказы</a>
+        <a class="nav-link" id="order-tab" data-toggle="tab" href="#order" role="tab" aria-controls="order"
+           aria-selected="false">Мои заказы</a>
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">
@@ -14,7 +16,7 @@
         <c:choose>
             <c:when test="${sessionScope.basket.orders.size()==0 || sessionScope.basket == null}">
                 <div class="alert alert-primary" role="alert">
-                        Ваша корзина пуста
+                    Ваша корзина пуста
                 </div>
             </c:when>
             <c:otherwise>
@@ -56,7 +58,9 @@
                                 </label>
                             </td>
                             <td>
-                                <button class="btn btn-primary col-6" form="delFromBasket" type="submit" name="delProduct" value="${item.id}">
+                                <button class="btn btn-primary col-6" form="delFromBasket" type="submit"
+                                        name="delProduct"
+                                        value="${item.id}">
                                     Удалить
                                 </button>
                             </td>

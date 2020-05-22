@@ -16,7 +16,7 @@
     </thead>
     <tbody>
     <c:forEach items="${requestScope.allOrders}" var="item">
-        <tr>
+        <tr style="background-color: #f2eff6">
             <th scope="col"><c:out value="${item.id}"/></th>
             <th scope="col"><c:out value="${item.user.login}"/></th>
             <th scope="col"><c:out value="${item.status}"/></th>

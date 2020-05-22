@@ -15,9 +15,5 @@ public interface OrderService {
 
     void changeOrderStatus(Integer orderId, Status status);
 
-    List<Order> getPaidOrders();
-
-    void delOrder(Integer orderId);
-
-    void updateProductQuantity(Order order);
+    void writeOffOrders();
 }
