@@ -1,39 +1,27 @@
 package com.github.xrapalexandra.kr.service.impl;
 
 import com.github.xrapalexandra.kr.dao.RatingDao;
-import com.github.xrapalexandra.kr.dao.impl.DefaultRatingDao;
 import com.github.xrapalexandra.kr.model.Product;
 import com.github.xrapalexandra.kr.model.Rating;
 import com.github.xrapalexandra.kr.service.RatingService;
 import com.github.xrapalexandra.kr.service.util.ServiceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 
+@Transactional
 public class DefaultRatingService implements RatingService {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private DefaultRatingService() {
+    private RatingDao ratingDao;
+
+    public DefaultRatingService(RatingDao ratingDao) {
+        this.ratingDao = ratingDao;
     }
-
-    private static volatile RatingService instance;
-
-    public static RatingService getInstance() {
-        RatingService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (RatingService.class) {
-                localInstance = instance;
-                if (localInstance == null)
-                    localInstance = instance = new DefaultRatingService();
-            }
-        }
-        return localInstance;
-    }
-
-    private RatingDao ratingDao = DefaultRatingDao.getInstance();
 
     @Override
     public Integer addRating(Rating rating) {

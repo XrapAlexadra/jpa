@@ -9,7 +9,7 @@ public interface RatingDao {
 
     Integer addRating(Rating rating);
 
-    void delRating(Integer ratingId);
+    Boolean delRating(Integer ratingId);
 
     Double getAvrRatingByProduct(Product product);
 

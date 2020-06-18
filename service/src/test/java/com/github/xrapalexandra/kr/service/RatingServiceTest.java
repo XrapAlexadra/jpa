@@ -63,9 +63,4 @@ public class RatingServiceTest {
 
         assertEquals(ratingId, ratingService.addRating(rating));
     }
-
-    @Test
-    public void getInstance(){
-        assertNotNull(DefaultRatingService.getInstance());
-    }
 }

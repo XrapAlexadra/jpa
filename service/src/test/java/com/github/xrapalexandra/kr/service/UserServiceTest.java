@@ -45,8 +45,5 @@ public class UserServiceTest {
         assertNull(userService.logIn("qwerty", "123456"));
     }
 
-    @Test
-    public void getInstance(){
-        assertNotNull(DefaultUserService.getInstance());
-    }
+
 }

@@ -7,8 +7,5 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ShopAddressServiceTest {
 
-    @Test
-    void getInstance() {
-        assertNotNull(DefaultShopAddressService.getInstance());
-    }
+
 }

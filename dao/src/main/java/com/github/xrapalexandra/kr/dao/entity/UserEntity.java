@@ -74,7 +74,7 @@ public class UserEntity {
         this.role = role;
     }
 
-   @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+   @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     public UserAddressEntity getAddress() {
         return address;
     }

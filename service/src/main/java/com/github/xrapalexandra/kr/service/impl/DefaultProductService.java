@@ -1,45 +1,35 @@
 package com.github.xrapalexandra.kr.service.impl;
 
 import com.github.xrapalexandra.kr.dao.ProductDao;
-import com.github.xrapalexandra.kr.dao.impl.DefaultProductDao;
 import com.github.xrapalexandra.kr.model.Product;
 import com.github.xrapalexandra.kr.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.invoke.MethodHandles;
-import java.util.List;
 
+@Transactional
 public class DefaultProductService implements ProductService {
 
+    private static final int MAX_NUMBER_PRODUCT_ON_PAGE = 8;
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private ProductDao productDao = DefaultProductDao.getInstance();
 
-    private DefaultProductService() {
-    }
+    private ProductDao productDao;
 
-    private static volatile ProductService instance;
-
-    public static ProductService getInstance() {
-        ProductService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (ProductService.class) {
-                localInstance = instance;
-                if (localInstance == null)
-                    localInstance = instance = new DefaultProductService();
-            }
-        }
-        return localInstance;
+    public DefaultProductService(ProductDao productDao) {
+        this.productDao = productDao;
     }
 
     @Override
-    public List<Product> getProductList(int page) {
-        return productDao.getProductList(page);
+    public Page<Product> getProductsPage(int page) {
+        return productDao.getProductList(page, MAX_NUMBER_PRODUCT_ON_PAGE);
     }
 
     @Override
     public Integer getPageCount(){
-        return productDao.getPageCount();
+        return productDao.getPageCount(MAX_NUMBER_PRODUCT_ON_PAGE);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.github.xrapalexandra.kr.dao.entity;
 import javax.persistence.*;
 
 @MappedSuperclass
+@Cacheable
 public abstract class AddressEntity {
 
     private Integer id;

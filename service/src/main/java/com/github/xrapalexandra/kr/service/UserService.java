@@ -11,7 +11,4 @@ public interface UserService {
 
     void updatePass(User user);
 
-    void updateAddress(User user);
-
-    UserAddress getUserAddress(Integer userId);
 }

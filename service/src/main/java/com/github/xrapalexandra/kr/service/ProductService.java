@@ -1,6 +1,7 @@
 package com.github.xrapalexandra.kr.service;
 
 import com.github.xrapalexandra.kr.model.Product;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface ProductService {
 
     Product getProductById(int product_id);
 
-    List<Product> getProductList(int page);
+    Page<Product> getProductsPage(int page);
 
     Integer getPageCount();
 }

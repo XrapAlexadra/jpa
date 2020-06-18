@@ -7,10 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class OrderServiceTest {
 
-    @Test
-    void getInstance() {
-        assertNotNull(DefaultOrderService.getInstance());
-    }
 
 
 }

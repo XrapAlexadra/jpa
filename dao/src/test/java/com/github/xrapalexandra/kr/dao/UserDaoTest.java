@@ -1,22 +1,36 @@
 package com.github.xrapalexandra.kr.dao;
 
 
-import com.github.xrapalexandra.kr.dao.impl.DefaultOrderDao;
-import com.github.xrapalexandra.kr.dao.impl.DefaultProductDao;
-import com.github.xrapalexandra.kr.dao.impl.DefaultUserDao;
+import com.github.xrapalexandra.kr.dao.config.DaoConfig;
 import com.github.xrapalexandra.kr.model.*;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = DaoConfig.class)
+//@Transactional
 public class UserDaoTest {
 
-    public UserDao userDao = DefaultUserDao.getInstance();
-    public ProductDao productDao = DefaultProductDao.getInstance();
-    public OrderDao orderDao = DefaultOrderDao.getInstance();
+    @Autowired
+    public UserDao userDao;
+    @Autowired
+    public ProductDao productDao;
+    @Autowired
+    public OrderDao orderDao;
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Test
     void addUserNull(){
@@ -24,9 +38,8 @@ public class UserDaoTest {
         User user2 = new User("login", Role.USER, "user123");
         user1.setId(userDao.addUser(user1));
         user2.setId(userDao.addUser(user2));
+
         assertNull(user2.getId());
-        userDao.delUser(user1.getId());
-        userDao.delUser(user2.getId());
     }
 
     @Test
@@ -34,7 +47,6 @@ public class UserDaoTest {
         User user1 = new User("user11", Role.USER, "user11");
         user1.setId(userDao.addUser(user1));
         assertNotNull(userDao.getByLogin("user11"));
-        userDao.delUser(user1.getId());
     }
 
     @Test
@@ -42,7 +54,6 @@ public class UserDaoTest {
         User user = new User("user", Role.USER, "user345");
         user.setId(userDao.addUser(user));
         assertEquals(user, userDao.getByLogin(user.getLogin()));
-        userDao.delUser(user.getId());
     }
 
     @Test
@@ -52,51 +63,39 @@ public class UserDaoTest {
 
     @Test
     void delUser(){
-        User user = new User("zxcvb", Role.USER, "425146");
+        User user = new User("zxcvb2", Role.USER, "425146");
         user.setId(userDao.addUser(user));
         assertTrue(userDao.delUser(user.getId()));
+
     }
 
     @Test
     void delUserFalse(){
-        User user = new User("zxcvb", Role.USER, "425146");
+        User user = new User("zxc", Role.USER, "425146");
         user.setId(userDao.addUser(user));
-        Product product = new Product("name1", 12, 23);
+        Product product = new Product("name1345", 12, 23);
         product.setId(productDao.addProduct(product));
+
         OrderContent orderContent = new OrderContent(product, 2);
         List<OrderContent> orderContentList= new ArrayList<>();
         orderContentList.add(orderContent);
+
         Order order = new Order(user, orderContentList, Status.ORDER);
         order.setId(orderDao.addOrder(order));
 
         assertFalse(userDao.delUser(user.getId()));
-
-        orderDao.delOrder(order.getId());
-        productDao.delProduct(product.getId());
-       userDao.delUser(user.getId());
     }
+
     @Test
+    @Transactional
     void updatePass(){
-        User user = new User("zxcvb", Role.USER, "425146");
+        User user = new User("zxcvb1", Role.USER, "425146");
         user.setId(userDao.addUser(user));
         user.setPass("popopo");
         userDao.updatePass(user);
-        assertEquals("popopo", userDao.getByLogin("zxcvb").getPass());
-        userDao.delUser(user.getId());
+        assertEquals("popopo", userDao.getByLogin("zxcvb1").getPass());
     }
 
-    @Test
-    void updateAddress(){
-        User user = new User("user2", Role.USER, "425146");
-        user.setId(userDao.addUser(user));
-        user.setAddress(new UserAddress("Minsk", "lenina", "10a"));
-        user.getAddress().setId(userDao.addAddress(user));
-        user.getAddress().setCity("Rio");
-        userDao.updateAddress(user);
-        assertEquals(user.getAddress(), userDao.getUserAddress(user.getId()));
-        userDao.delUser(user.getId());
-
-    }
 //    @Test
 //    void addAdmin (){
 //        User user = new User("admin", Role.ADMIN, "admin");

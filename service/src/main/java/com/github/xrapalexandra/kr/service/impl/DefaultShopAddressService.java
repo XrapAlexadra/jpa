@@ -1,38 +1,25 @@
 package com.github.xrapalexandra.kr.service.impl;
 
 import com.github.xrapalexandra.kr.dao.ShopAddressDao;
-import com.github.xrapalexandra.kr.dao.impl.DefaultShopAddressDao;
 import com.github.xrapalexandra.kr.model.ShopAddress;
 import com.github.xrapalexandra.kr.service.ShopAddressService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 
+@Transactional
 public class DefaultShopAddressService implements ShopAddressService {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private DefaultShopAddressService() {
+    private ShopAddressDao shopAddressDao;
+
+    public DefaultShopAddressService(ShopAddressDao shopAddressDao) {
+        this.shopAddressDao = shopAddressDao;
     }
-
-    private static volatile ShopAddressService instance;
-
-
-    public static ShopAddressService getInstance() {
-        ShopAddressService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (ShopAddressService.class) {
-                localInstance = instance;
-                if (localInstance == null)
-                    localInstance = instance = new DefaultShopAddressService();
-            }
-        }
-        return localInstance;
-    }
-
-    private ShopAddressDao shopAddressDao = DefaultShopAddressDao.getInstance();
 
     @Override
     public Integer addAddress(ShopAddress shopAddress) {

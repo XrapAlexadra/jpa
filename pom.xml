@@ -26,10 +26,12 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
         <cobertura-maven-plugin2.version>${cobertura-maven-plugin.version}</cobertura-maven-plugin2.version>
-        <mockito-core.version>3.1.0</mockito-core.version>
+        <spring-test.version>5.2.1.RELEASE</spring-test.version>
         <cobertura.version>2.1.1</cobertura.version>
         <slf4j-api.version>1.7.28</slf4j-api.version>
         <log4j-core.version>2.12.1</log4j-core.version>
+        <spring-orm.version>${spring-context.version}</spring-orm.version>
+        <spring-context.version>5.2.1.RELEASE</spring-context.version>
     </properties>
 
     <dependencies>
@@ -45,18 +47,7 @@
             <version>${guava.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${mockito-core.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>${mockito-core.version}</version>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>net.sourceforge.cobertura</groupId>
             <artifactId>cobertura</artifactId>
@@ -78,7 +69,26 @@
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>${log4j-core.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring-orm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring-context.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring-test.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>2.2.2.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <reporting>
