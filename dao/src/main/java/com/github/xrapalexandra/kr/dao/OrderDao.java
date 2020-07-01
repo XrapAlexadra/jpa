@@ -14,7 +14,7 @@ public interface OrderDao {
 
     Page<Order> getAllOrders(int page, int number);
 
-    List<Order> getUserOrders(Integer userId);
+    List<Order> getUserOrders(String login);
 
     void changeOrderStatus(Integer orderId, Status status);
 

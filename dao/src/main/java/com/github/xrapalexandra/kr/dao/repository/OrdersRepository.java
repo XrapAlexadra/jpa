@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface OrdersRepository extends JpaRepository<OrderEntity, Integer> {
 
-        List<OrderEntity> findByUserId(Integer userId);
+        List<OrderEntity> findByUserLogin(String login);
 
         List<OrderEntity> findByStatus(Status status);
 

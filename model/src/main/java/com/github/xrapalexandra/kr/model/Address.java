@@ -1,6 +1,5 @@
 package com.github.xrapalexandra.kr.model;
 
-import com.google.common.base.Objects;
 
 public abstract class Address {
 
@@ -46,18 +45,4 @@ public abstract class Address {
         return "г." + city + " ,ул." + street + " ,д." + building + ".";
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Address address = (Address) o;
-        return Objects.equal(city, address.city) &&
-                Objects.equal(street, address.street) &&
-                Objects.equal(building, address.building);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(city, street, building);
-    }
 }

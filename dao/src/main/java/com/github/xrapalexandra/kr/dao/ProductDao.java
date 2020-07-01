@@ -4,6 +4,8 @@ import com.github.xrapalexandra.kr.model.Order;
 import com.github.xrapalexandra.kr.model.Product;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 
 public interface ProductDao {
 
@@ -17,7 +19,7 @@ public interface ProductDao {
 
     Page<Product> getProductList(int page, int number);
 
-    Integer getPageCount(int number);
-
     void updateQuantityByOrder(Order order);
+
+    List<Product> getProductListByIds(List<Integer> ids);
 }

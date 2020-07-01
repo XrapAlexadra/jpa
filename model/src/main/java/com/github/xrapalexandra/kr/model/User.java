@@ -1,6 +1,5 @@
 package com.github.xrapalexandra.kr.model;
 
-import com.google.common.base.Objects;
 
 public class User {
 
@@ -59,20 +58,6 @@ public class User {
         this.address = address;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equal(login, user.login) &&
-                Objects.equal(pass, user.pass) &&
-                role == user.role;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(login, pass, role);
-    }
 
     @Override
     public String toString() {

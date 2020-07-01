@@ -1,39 +1,42 @@
 package com.github.xrapalexandra.kr.service.config;
 
-import com.github.xrapalexandra.kr.dao.*;
 import com.github.xrapalexandra.kr.dao.config.DaoConfig;
 import com.github.xrapalexandra.kr.service.*;
 import com.github.xrapalexandra.kr.service.impl.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import(DaoConfig.class)
 public class ServiceConfig {
 
-    @Bean
-    UserService userService(UserDao userDao){
-        return new DefaultUserService(userDao);
+    private DaoConfig daoConfig;
+
+    public ServiceConfig(DaoConfig daoConfig) {
+        this.daoConfig = daoConfig;
     }
 
     @Bean
-    ShopAddressService shopAddressService(ShopAddressDao shopAddressDao){
-        return new DefaultShopAddressService(shopAddressDao);
+    public UserService userService(){
+        return new DefaultUserService(daoConfig.userDao());
     }
 
     @Bean
-    RatingService ratingService(RatingDao ratingDao){
-        return new DefaultRatingService(ratingDao);
+    public ShopAddressService shopAddressService(){
+        return new DefaultShopAddressService(daoConfig.shopAddressDao());
     }
 
     @Bean
-    ProductService productService(ProductDao productDao){
-        return  new DefaultProductService(productDao);
+    public RatingService ratingService(){
+        return new DefaultRatingService(daoConfig.ratingDao());
     }
 
     @Bean
-    OrderService orderService(OrderDao orderDao, ProductDao productDao){
-        return new DefaultOrderService(orderDao, productDao);
+    public ProductService productService(){
+        return  new DefaultProductService(daoConfig.productDao());
+    }
+
+    @Bean
+    public OrderService orderService(){
+        return new DefaultOrderService(daoConfig.orderDao(), daoConfig.productDao());
     }
 }

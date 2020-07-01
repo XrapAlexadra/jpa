@@ -23,7 +23,7 @@ public class BasketBean {
     }
 
     public synchronized void addProductId(int productId){
-        if (!WebUtils.isExist(basket, productId))
+        if (!isExist(productId))
             basket.add(productId);
     }
 
@@ -35,6 +35,13 @@ public class BasketBean {
         return new ArrayList<>(basket);
     }
 
+    private Boolean isExist(int item){
+        for(int i : basket){
+            if (i == item)
+                return true;
+        }
+        return false;
+    }
 
     public String saveImage(String image, Integer productId) {
         try {

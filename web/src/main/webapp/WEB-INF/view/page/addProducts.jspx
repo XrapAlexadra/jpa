@@ -1,0 +1,54 @@
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags"
+          version="2.0">
+    <div class="card col-8">
+        <h5 class="card-header">Добавить товар</h5>
+        <div class="card-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form method="post" action="${pageContext.request.contextPath}/admins/products/add">
+                        <div class="form-row">
+                            <label for="name" class="col-3">Наименование</label>
+                            <div class="col-9">
+                                <input class="form-control" id="name" name="name"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <label for="price" class="col-3">Цена</label>
+                            <div class="col-9">
+                                <input class="form-control" id="price" pattern="[0-9\.]{1,10}$"
+                                       name="price"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <label for="quantity" class="col-3">Количество</label>
+                            <div class="col-9">
+                                <input class="form-control" id="quantity" pattern="[0-9]{1,10}$"
+                                       name="quantity"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <label for="description" class="col-3">Описание</label>
+                            <div class="col-9">
+                                <input class="form-control" id="description" name="description"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <label for="image" class="col-3">Изображение</label>
+                            <div class="col-9">
+                                <input class="form-control" id="image" name="image"/>
+                            </div>
+                        </div>
+                        <br/>
+                        <button class="btn btn-primary col-2">
+                            Добавить
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</jsp:root>

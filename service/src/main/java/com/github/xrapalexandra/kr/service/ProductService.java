@@ -17,5 +17,5 @@ public interface ProductService {
 
     Page<Product> getProductsPage(int page);
 
-    Integer getPageCount();
+    List<Product> getProductListByIds(List<Integer> ids);
 }

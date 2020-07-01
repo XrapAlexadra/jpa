@@ -3,6 +3,7 @@ package com.github.xrapalexandra.kr.service.impl;
 import com.github.xrapalexandra.kr.dao.OrderDao;
 import com.github.xrapalexandra.kr.dao.ProductDao;
 import com.github.xrapalexandra.kr.model.Order;
+import com.github.xrapalexandra.kr.model.OrderContent;
 import com.github.xrapalexandra.kr.model.Status;
 import com.github.xrapalexandra.kr.service.OrderService;
 import org.slf4j.Logger;
@@ -11,12 +12,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
 public class DefaultOrderService implements OrderService {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final int MAX_NUMBER_ORDER_ON_PAGE = 8;
 
     private OrderDao orderDao;
     private ProductDao productDao;
@@ -33,13 +36,23 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-    public List<Order> getUserOrders(Integer userId) {
-        return orderDao.getUserOrders(userId);
+    public List<OrderContent> createOrderContent(List<Integer> productIdList,  Integer[] quantities) {
+        List<OrderContent> orderContentList = new ArrayList<>();
+        for (int i = 0; i < productIdList.size(); i++)
+            orderContentList.add(
+                    new OrderContent(productDao.getProductById(productIdList.get(i)),quantities[i])
+            );
+      return orderContentList;
+    }
+
+    @Override
+    public List<Order> getUserOrders(String login) {
+        return orderDao.getUserOrders(login);
     }
 
     @Override
     public Page<Order> getAllOrders(int page) {
-        return orderDao.getAllOrders(page,8);
+        return orderDao.getAllOrders(page,MAX_NUMBER_ORDER_ON_PAGE);
     }
 
     @Override

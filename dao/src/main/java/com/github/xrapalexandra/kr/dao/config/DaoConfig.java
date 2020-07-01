@@ -3,37 +3,61 @@ package com.github.xrapalexandra.kr.dao.config;
 import com.github.xrapalexandra.kr.dao.*;
 import com.github.xrapalexandra.kr.dao.impl.*;
 import com.github.xrapalexandra.kr.dao.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.persistence.EntityManagerFactory;
 
 
 @Configuration
 @Import(HibernateConfig.class)
+@EnableTransactionManagement
+@EnableJpaRepositories(basePackages = "com.github.xrapalexandra.kr.dao.repository")
 public class DaoConfig {
 
+    @Autowired
+    private ShopAddressRepository shopAddressRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private ProductPagingRepository productPagingRepository;
+    @Autowired
+    private RatingRepository ratingRepository;
+    @Autowired
+    private OrdersRepository ordersRepository;
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
+    @Autowired
+    private OrdersPagingRepository ordersPagingRepository;
+
     @Bean
-    ShopAddressDao shopAddressDao(ShopAddressRepository repository) {
-        return new DefaultShopAddressDao(repository);
+    public ShopAddressDao shopAddressDao() {
+        return new DefaultShopAddressDao(shopAddressRepository);
     }
 
     @Bean
-    UserDao userDao(UserRepository repository){
-        return new DefaultUserDao(repository);
+    public UserDao userDao(){
+        return new DefaultUserDao(userRepository, entityManagerFactory.createEntityManager());
     }
 
     @Bean
-    ProductDao productDao(ProductRepository repository){
-        return  new DefaultProductDao(repository);
+    public ProductDao productDao(){
+        return  new DefaultProductDao(productRepository, productPagingRepository);
     }
 
     @Bean
-    RatingDao ratingDao(RatingRepository repository){
-        return new DefaultRatingDao(repository);
+    public RatingDao ratingDao(){
+        return new DefaultRatingDao(ratingRepository);
     }
 
     @Bean
-    OrderDao orderDao(OrdersRepository repository){
-        return new DefaultOrderDao(repository);
+    public OrderDao orderDao(){
+        return new DefaultOrderDao(ordersRepository, ordersPagingRepository);
     }
 }

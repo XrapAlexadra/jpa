@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 @Transactional
 public class DefaultProductService implements ProductService {
@@ -28,8 +29,8 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Integer getPageCount(){
-        return productDao.getPageCount(MAX_NUMBER_PRODUCT_ON_PAGE);
+    public List<Product> getProductListByIds(List<Integer> ids) {
+        return productDao.getProductListByIds(ids);
     }
 
     @Override

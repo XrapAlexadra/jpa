@@ -1,0 +1,131 @@
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags"
+          version="2.0">
+
+    <div class="col-10">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="basket-tab" data-toggle="tab" href="#basket" role="tab"
+                   aria-controls="basket"
+                >Корзина</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="order-tab" data-toggle="tab" href="#order" role="tab" aria-controls="order"
+                   aria-selected="false">Мои заказы</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="basket" role="tabpanel" aria-labelledby="basket-tab">
+                <c:choose>
+                    <c:when test="${sessionScope.basket.orders.size()==0 || sessionScope.basket == null}">
+                        <div class="alert alert-primary" role="alert">
+                            Ваша корзина пуста
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <form id="setOrder" method="post" action="${pageContext.request.contextPath}/basket/setOrders"/>
+                        <table class="table table-hover">
+                            <caption>Товары в корзине</caption>
+                            <thead>
+                            <tr>
+                                <th scope="col"/>
+                                <th scope="col"/>
+                                <th scope="col">Наименование</th>
+                                <th scope="col">Цена</th>
+                                <th scope="col">Количество</th>
+                                <th scope="col"/>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${basket}" var="item" varStatus="index">
+                                <tr>
+                                    <td><c:out value="${index.count}"/></td>
+                                    <td>
+                                        <a href="${pageContext.request.contextPath}/products/${item.id}">
+                                            <img src="${item.image}" alt="${item.name}" height="70"/>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="${pageContext.request.contextPath}/products/${item.id}">
+                                            <c:out value="${item.name}"/>
+                                        </a>
+                                    </td>
+                                    <td><c:out value="${item.price}"/></td>
+                                    <td>
+                                        <label>
+                                            <input form="setOrder" value="1"
+                                                   name="quantity" pattern="[0-9]{1,5}" class="form-control"/>
+                                        </label>
+                                    </td>
+                                    <td>
+
+                                            <button formaction="${pageContext.request.contextPath}/basket/delete/${item.id}"
+                                                    formmethod="post"
+                                                    class="btn btn-primary" type="submit">
+                                                Удалить
+                                            </button>
+
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                        <input form="setOrder" type="submit" value="Заказать"/>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+            <div class="tab-pane fade" id="order" role="tabpanel" aria-labelledby="order-tab">
+                <c:if test="${orderInProcess == null}">
+                    <div class="alert alert-primary" role="alert">
+                        Нет актуальных заказов
+                    </div>
+                </c:if>
+                <c:if test="${orderInProcess != null}">
+                    <table class="table table-hover">
+                        <caption>Заказы</caption>
+                        <thead>
+                        <tr>
+                            <th scope="col"/>
+                            <th scope="col"/>
+                            <th scope="col">Наименование</th>
+                            <th scope="col">Цена</th>
+                            <th scope="col">Количество</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${orderInProcess}" var="item">
+                            <tr>
+                                <th scope="col"><c:out value="${item.id}"/></th>
+                                <th scope="col"/>
+                                <th scope="col"/>
+                                <th scope="col"/>
+                                <th scope="col"><c:out value="${item.status}"/></th>
+                            </tr>
+                            <c:forEach items="${item.contentList}" var="content" varStatus="index">
+                                <tr>
+                                    <th><c:out value="${index.count}"/></th>
+                                    <td>
+                                        <a href="${pageContext.request.contextPath}/products/${content.product.id}">
+                                            <img src="${content.product.image}" alt="${content.product.name}"
+                                                 height="70"/>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="${pageContext.request.contextPath}/products/${content.product.id}">
+                                            <c:out value="${content.product.name}"/>
+                                        </a>
+                                    </td>
+                                    <td><c:out value="${content.product.price}"/></td>
+                                    <td><c:out value="${content.orderQuantity}"/></td>
+                                </tr>
+                            </c:forEach>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </c:if>
+            </div>
+        </div>
+    </div>
+</jsp:root>

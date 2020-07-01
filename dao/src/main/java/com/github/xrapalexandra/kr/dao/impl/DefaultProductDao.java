@@ -3,6 +3,7 @@ package com.github.xrapalexandra.kr.dao.impl;
 import com.github.xrapalexandra.kr.dao.ProductDao;
 import com.github.xrapalexandra.kr.dao.converter.ProductConverter;
 import com.github.xrapalexandra.kr.dao.entity.ProductEntity;
+import com.github.xrapalexandra.kr.dao.repository.ProductPagingRepository;
 import com.github.xrapalexandra.kr.dao.repository.ProductRepository;
 import com.github.xrapalexandra.kr.model.Order;
 import com.github.xrapalexandra.kr.model.OrderContent;
@@ -18,9 +19,11 @@ import java.util.stream.Collectors;
 public class DefaultProductDao implements ProductDao {
 
     private ProductRepository repository;
+    private ProductPagingRepository pagingRepository;
 
-    public DefaultProductDao(ProductRepository repository) {
+    public DefaultProductDao(ProductRepository repository, ProductPagingRepository pagingRepository) {
         this.repository = repository;
+        this.pagingRepository = pagingRepository;
     }
 
     @Override
@@ -57,14 +60,10 @@ public class DefaultProductDao implements ProductDao {
 
     @Override
     public Page<Product> getProductList(int page, int number) {
-        Page<ProductEntity> productEntityPage = repository.findAll(PageRequest.of(page, number, Sort.by("id")));
+        Page<ProductEntity> productEntityPage = pagingRepository.findAll(PageRequest.of(page-1, number, Sort.by("id")));
+        List<ProductEntity> productEntityList= productEntityPage.getContent();
         return productEntityPage.map(ProductConverter::fromEntity);
-    }
 
-    @Override
-    public Integer getPageCount(int number) {
-        Page<ProductEntity> productEntityPage = repository.findAll(PageRequest.of(0, number));
-        return productEntityPage.getTotalPages();
     }
 
     @Override
@@ -76,5 +75,13 @@ public class DefaultProductDao implements ProductDao {
             productEntity.setQuantity(resultQuantity);
             repository.saveAndFlush(productEntity);
         }
+    }
+
+    @Override
+    public List<Product> getProductListByIds(List<Integer> ids) {
+        List<ProductEntity> productEntityList = repository.findAllById(ids);
+        return productEntityList.stream()
+                .map(ProductConverter::fromEntity)
+                .collect(Collectors.toList());
     }
 }

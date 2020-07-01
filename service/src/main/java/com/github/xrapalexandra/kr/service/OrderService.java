@@ -1,6 +1,7 @@
 package com.github.xrapalexandra.kr.service;
 
 import com.github.xrapalexandra.kr.model.Order;
+import com.github.xrapalexandra.kr.model.OrderContent;
 import com.github.xrapalexandra.kr.model.Status;
 import org.springframework.data.domain.Page;
 
@@ -8,9 +9,11 @@ import java.util.List;
 
 public interface OrderService {
 
-    void addOrder (Order order);
+    List<OrderContent> createOrderContent(List<Integer> productIdList, Integer[] quantities);
 
-    List<Order> getUserOrders(Integer userId);
+     void addOrder(Order order);
+
+    List<Order> getUserOrders(String login);
 
     Page<Order> getAllOrders(int page);
 

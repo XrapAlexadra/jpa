@@ -1,0 +1,69 @@
+
+<jsp:root
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:jsp="http://java.sun.com/JSP/Page"
+        xmlns:sec="http://www.springframework.org/security/tags"
+        version="2.0">
+
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">LOGO</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"/>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/products/list/1">Каталог</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/admins/shopAddresses/">Магазины</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/basket">Корзина</a>
+                </li>
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/admins/products/list/1">Список товаров</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/admins/products/add">Добавить товар</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${pageContext.request.contextPath}/admins/orders/">Заказы</a>
+                    </li>
+                </sec:authorize>
+            </ul>
+
+                <sec:authorize access="isAnonymous()">
+                    <form class="form-inline my-2 my-lg-0" action="${pageContext.request.contextPath}/login">
+                        <button class="btn btn-outline-success my-2 my-sm-0">
+                            Войти
+                        </button>
+                    </form>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <nav class="navbar navbar-light bg-light">
+                    <span class="navbar-text">
+                        Вы вошли как ${SPRING_SECURITY_LAST_USERNAME}
+                     </span>
+                    </nav>
+                    <form class="form-inline my-2 my-lg-0">
+                        <button class="btn btn-outline-success my-2 my-sm-0"
+                                formaction="${pageContext.request.contextPath}/exit">Выйти
+                        </button>
+                    </form>
+                </sec:authorize>
+
+
+        </div>
+    </nav>
+
+
+</jsp:root>

@@ -1,0 +1,65 @@
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:spring="http://www.springframework.org/tags"
+          version="2.0">
+    <div class="card col-8">
+        <h5 class="card-header">Редактирование товара</h5>
+        <div class="card-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form method="post" action="${pageContext.request.contextPath}/admins/products/update/${product.id}">
+                        <div class="form-row">
+                            <label for="name" class="col-3">Наименование</label>
+                            <div class="col-9">
+                                <input type="text" class="form-control" id="name" name="name"
+                                       value="${product.name}"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <label for="price" class="col-3">Цена</label>
+                            <div class="col-9">
+                                <input type="text" class="form-control" id="price" pattern="[0-9\.]{1,10}$"
+                                       name="price" value="${product.price}"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <label for="quantity" class="col-3">Количество</label>
+                            <div class="col-9">
+                                <input type="text" class="form-control" id="quantity" pattern="[0-9]{1,10}$"
+                                       name="quantity" value="${product.quantity}"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <label for="description" class="col-3">Описание</label>
+                            <div class="col-9">
+                                <input type="text" class="form-control" id="description"
+                                       name="description" value="${product.description}"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <img src="${product.image}" height="150"
+                                 alt="${product.image}"/>
+                            <label for="image" class="col-3"/>
+                            <input type="text" class="form-control" id="image"
+                                   name="image" value="${product.image}"/>
+                        </div>
+                        <br/>
+
+                        <div class="form-row">
+                            <button class="btn btn-primary col-2">
+                                Изменить
+                            </button>
+                            <button class="btn btn-primary col-2"
+                                    formaction="${pageContext.request.contextPath}/admins/products/delete/${product.id}"
+                                    formmethod="post">Удалить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</jsp:root>
