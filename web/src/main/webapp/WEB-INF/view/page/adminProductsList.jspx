@@ -17,7 +17,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${productList}" var="item" varStatus="index">
+            <c:forEach items="${list}" var="item" varStatus="index">
                 <tr>
                     <th scope="row"><c:out value="${index.count}"/></th>
                     <td>

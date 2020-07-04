@@ -5,8 +5,6 @@
         xmlns:sec="http://www.springframework.org/security/tags"
         version="2.0">
 
-
-
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">LOGO</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -26,7 +24,7 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/admins/shopAddresses/">Магазины</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/basket">Корзина</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/basket/">Корзина</a>
                 </li>
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <li class="nav-item">
@@ -36,7 +34,7 @@
                         <a class="nav-link" href="${pageContext.request.contextPath}/admins/products/add">Добавить товар</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/admins/orders/">Заказы</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/admins/orders/1">Заказы</a>
                     </li>
                 </sec:authorize>
             </ul>
@@ -60,10 +58,6 @@
                         </button>
                     </form>
                 </sec:authorize>
-
-
         </div>
     </nav>
-
-
 </jsp:root>

@@ -15,7 +15,7 @@
                     </a>
                 </c:if>
                 <c:if test="${page != 1}">
-                    <a class="page-link" href="${pageContext.request.contextPath}/products/list/${page-1}"
+                    <a class="page-link" href="${pageContext.request.contextPath}${address}${page-1}"
                        aria-label="Previous">
                         <span>Previous</span>
                     </a>
@@ -29,7 +29,7 @@
                 </c:if>
                 <c:if test="${i != page}">
                     <li class="page-item">
-                        <a class="page-link" href="${pageContext.request.contextPath}/products/list/${i}">
+                        <a class="page-link" href="${pageContext.request.contextPath}${address}${i}">
                             ${i}
                         </a>
                     </li>
@@ -43,7 +43,7 @@
                     </a>
                 </c:if>
                 <c:if test="${page != pageCount}">
-                    <a class="page-link" href="${pageContext.request.contextPath}//products/list/${requestScope.page+1}"
+                    <a class="page-link" href="${pageContext.request.contextPath}${address}${requestScope.page+1}"
                        aria-label="Next">
                         <span>Next</span>
                     </a>

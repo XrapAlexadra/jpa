@@ -19,7 +19,7 @@ import java.util.List;
 public class DefaultOrderService implements OrderService {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private static final int MAX_NUMBER_ORDER_ON_PAGE = 8;
+    private static final int MAX_NUMBER_ORDER_ON_PAGE = 4;
 
     private OrderDao orderDao;
     private ProductDao productDao;

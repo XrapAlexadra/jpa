@@ -4,6 +4,7 @@ import com.github.xrapalexandra.kr.model.Product;
 import com.github.xrapalexandra.kr.model.Rating;
 import com.github.xrapalexandra.kr.service.ProductService;
 import com.github.xrapalexandra.kr.service.RatingService;
+import com.github.xrapalexandra.kr.web.util.WebUtil;
 import org.apache.commons.io.FileUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,12 +34,12 @@ public class ProductsController {
     }
 
     @GetMapping("/list/{page}")
-    public String getProductsPage(ModelMap model, @PathVariable Integer page) {
+    public ModelAndView getProductsPage(@PathVariable Integer page) {
         Page<Product> productPage = productService.getProductsPage(page);
-        model.put("productList", productPage.getContent());
-        model.put("pageCount", productPage.getTotalPages());
-        model.put("page", productPage.getPageable().getPageNumber()+1);
-        return "productsList";
+        ModelAndView model = WebUtil.fillInModel(productPage);
+        model.addObject("address", "/products/list/");
+        model.setViewName("productsList");
+        return model;
     }
 
     @GetMapping("/{id}")

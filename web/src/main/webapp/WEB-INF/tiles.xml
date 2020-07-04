@@ -19,11 +19,6 @@
         <put-attribute name="body" value="/WEB-INF/view/page/auth.jspx"/>
     </definition>
 
-    <definition name="productsList" extends="default">
-        <put-attribute name="body" value="/WEB-INF/view/page/productsList.jspx"/>
-        <put-attribute name="pagination" value="/WEB-INF/view/page/pagination.jspx"/>
-    </definition>
-
     <definition name="products" extends="default">
         <put-attribute name="body" value="/WEB-INF/view/page/products.jspx"/>
     </definition>
@@ -40,19 +35,28 @@
         <put-attribute name="body" value="/WEB-INF/view/page/basket.jspx"/>
     </definition>
 
-    <definition name="adminProductsList" extends="default">
-        <put-attribute name="body" value="/WEB-INF/view/page/adminProductsList.jspx"/>
-        <put-attribute name="pagination" value="/WEB-INF/view/page/pagination.jspx"/>
-    </definition>
-
-    <definition name="adminBasket" extends="default">
-        <put-attribute name="body" value="/WEB-INF/view/page/adminBasket.jspx"/>
-    </definition>
-
     <definition name="addProducts" extends="default">
         <put-attribute name="body" value="/WEB-INF/view/page/addProducts.jspx"/>
     </definition>
+
     <definition name="message" extends="default">
         <put-attribute name="body" value="/WEB-INF/view/page/message.jspx"/>
+    </definition>
+
+
+    <definition name="pagination" extends="default">
+        <put-attribute name="pagination" value="/WEB-INF/view/page/pagination.jspx"/>
+    </definition>
+
+    <definition name="adminBasket" extends="pagination">
+        <put-attribute name="body" value="/WEB-INF/view/page/adminBasket.jspx"/>
+    </definition>
+
+    <definition name="adminProductsList" extends="pagination">
+        <put-attribute name="body" value="/WEB-INF/view/page/adminProductsList.jspx"/>
+    </definition>
+
+    <definition name="productsList" extends="pagination">
+        <put-attribute name="body" value="/WEB-INF/view/page/productsList.jspx"/>
     </definition>
 </tiles-definitions>
