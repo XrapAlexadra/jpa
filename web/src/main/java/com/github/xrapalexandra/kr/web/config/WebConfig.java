@@ -10,6 +10,7 @@ import com.github.xrapalexandra.kr.web.controller.users.UsersController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
@@ -91,5 +92,12 @@ public class WebConfig {
         resolver.setCookieName("LocaleCookie");
         resolver.setCookieMaxAge(3600);
         return resolver;
+    }
+
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(1000000);
+        return multipartResolver;
     }
 }

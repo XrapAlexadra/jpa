@@ -4,13 +4,13 @@
           xmlns:spring="http://www.springframework.org/tags"
           version="2.0">
 
-    <div class="col-10">
+
         <table class="table table-hover">
             <caption>Список товаров</caption>
             <thead>
             <tr>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col"/>
+                <th scope="col"/>
                 <th scope="col">Наименование</th>
                 <th scope="col">Цена</th>
                 <th scope="col">Количество</th>
@@ -22,7 +22,8 @@
                     <th scope="row"><c:out value="${index.count}"/></th>
                     <td>
                         <a href="${pageContext.request.contextPath}/admins/products/update/${item.id}">
-                            <img src="${item.image}" alt="${item.name}" height="70"/>
+                            <img src="${pageContext.request.contextPath}/products/image?name=${item.image}"
+                                 alt="${item.name}" height="70"/>
                         </a>
                     </td>
                     <td>
@@ -36,51 +37,4 @@
             </c:forEach>
             </tbody>
         </table>
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li class="page-item">
-                    <c:if test="${page == 1}">
-                        <a class="page-link" href="#"
-                           aria-label="Previous">
-                            <span>Previous</span>
-                        </a>
-                    </c:if>
-                    <c:if test="${page != 1}">
-                        <a class="page-link" href="${pageContext.request.contextPath}/products/list/${page-1}"
-                           aria-label="Previous">
-                            <span>Previous</span>
-                        </a>
-                    </c:if>
-                </li>
-                <c:forEach var="i" begin="1" end="${pageCount}">
-                    <c:if test="${i == page}">
-                        <li class="page-item active" aria-current="page">
-                            <a class="page-link" href="#">${i} <span class="sr-only">(current)</span></a>
-                        </li>
-                    </c:if>
-                    <c:if test="${i != page}">
-                        <li class="page-item">
-                            <a class="page-link" href="${pageContext.request.contextPath}/products/list/${i}">
-                                ${i}
-                            </a>
-                        </li>
-                    </c:if>
-                </c:forEach>
-                <li class="page-item">
-                    <c:if test="${page == pageCount}">
-                        <a class="page-link" href="#"
-                           aria-label="Next">
-                            <span>Next</span>
-                        </a>
-                    </c:if>
-                    <c:if test="${page != pageCount}">
-                        <a class="page-link" href="${pageContext.request.contextPath}//products/list/${requestScope.page+1}"
-                           aria-label="Next">
-                            <span>Next</span>
-                        </a>
-                    </c:if>
-                </li>
-            </ul>
-        </nav>
-    </div>
 </jsp:root>

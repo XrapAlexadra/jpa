@@ -4,6 +4,7 @@ import com.github.xrapalexandra.kr.model.Role;
 import com.github.xrapalexandra.kr.model.User;
 import com.github.xrapalexandra.kr.service.ShopAddressService;
 import com.github.xrapalexandra.kr.service.UserService;
+import com.github.xrapalexandra.kr.web.util.WebUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,14 +43,11 @@ public class UsersController {
 
     @GetMapping("/login")
     public ModelAndView login(ModelAndView model) {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || "anonymousUser".equals(authentication.getPrincipal()))
+        if (!WebUtil.isAuthentication())
             model.setViewName("login");
         else
             model.setViewName("login");
-
         return model;
-
     }
 
     @PostMapping("/login")
@@ -74,8 +72,7 @@ public class UsersController {
 
     @GetMapping("/auth")
     public ModelAndView authenticate(ModelAndView model) {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || "anonymousUser".equals(authentication.getPrincipal()))
+        if (!WebUtil.isAuthentication())
             model.setViewName("auth");
         else
             model.setViewName("default");

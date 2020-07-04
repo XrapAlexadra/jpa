@@ -4,6 +4,7 @@ import com.github.xrapalexandra.kr.model.*;
 import com.github.xrapalexandra.kr.service.OrderService;
 import com.github.xrapalexandra.kr.service.ProductService;
 import com.github.xrapalexandra.kr.web.BasketBean;
+import com.github.xrapalexandra.kr.web.util.WebUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -30,13 +31,12 @@ public class BasketController {
 
     @GetMapping("")
     public String getBasket(ModelMap model,
-                            HttpSession session){
+                            HttpSession session) {
         BasketBean basketBean = (BasketBean) session.getAttribute("basket");
         if (basketBean != null)
             model.put("basket", productService.getProductListByIds(basketBean.getOrders()));
-
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!(user == null || "anonymousUser".equals(user))) {
+        if (WebUtil.isAuthentication()) {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             List<Order> orderInProcess = orderService.getUserOrders(user.getLogin());
             model.put("orderInProcess", orderInProcess);
         }
@@ -46,13 +46,12 @@ public class BasketController {
     @PostMapping("/setOrders")
     public String setOrders(ModelMap model,
                             @RequestParam("quantity") Integer[] quantities,
-                            HttpSession session){
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (user == null) {
+                            HttpSession session) {
+        if (!WebUtil.isAuthentication()) {
             model.put("error", "Авторизируйтесь, чтобы сделать заказ.");
             return "message";
         }
-
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         BasketBean bean = (BasketBean) session.getAttribute("basket");
         List<OrderContent> orderContentList = orderService.createOrderContent(bean.getOrders(), quantities);
         Order order = new Order(user, orderContentList, Status.ORDER);
@@ -64,7 +63,7 @@ public class BasketController {
 
     @PostMapping("/delete/{id}")
     public String deleteOrder(HttpSession session,
-                              @PathVariable Integer id){
+                              @PathVariable Integer id) {
         BasketBean bean = BasketBean.get(session);
         bean.delProduct(id);
 
@@ -73,7 +72,7 @@ public class BasketController {
 
     @PostMapping("/add/{id}")
     public String addToOrder(HttpSession session,
-                             @PathVariable Integer id){
+                             @PathVariable Integer id) {
         BasketBean bean = BasketBean.get(session);
         bean.addProductId(id);
         return "redirect:/products/" + id;

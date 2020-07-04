@@ -4,17 +4,24 @@ import com.github.xrapalexandra.kr.model.Product;
 import com.github.xrapalexandra.kr.model.Rating;
 import com.github.xrapalexandra.kr.service.ProductService;
 import com.github.xrapalexandra.kr.service.RatingService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/products")
 public class ProductsController {
+
+    private final String ROOT_PATH = "/opt/tomcat/temp/files/";
 
     private ProductService productService;
     private RatingService ratingService;
@@ -48,5 +55,25 @@ public class ProductsController {
         if (ratingService.addRating(rating) == null)
             model.put("error", "Вы уже оценили этот товар.");
         return "products";
+    }
+
+    @GetMapping("/image")
+    public ResponseEntity<byte[]> download(@RequestParam(value = "name") String fileName) {
+        File file = new File(ROOT_PATH + fileName);
+        if (file.exists()) {
+            byte[] content = new byte[0];
+            try {
+                content = FileUtils.readFileToByteArray(file);
+            } catch (IOException e) {
+                //Exception handling
+            }
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            headers.setContentLength(content.length);
+            return new ResponseEntity<>(content, headers, HttpStatus.OK);
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

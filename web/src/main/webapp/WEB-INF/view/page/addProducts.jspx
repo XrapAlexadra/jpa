@@ -1,14 +1,16 @@
 <jsp:root xmlns="http://www.w3.org/1999/xhtml"
           xmlns:jsp="http://java.sun.com/JSP/Page"
           xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:s="http://www.springframework.org/tags/form"
           xmlns:spring="http://www.springframework.org/tags"
           version="2.0">
-    <div class="card col-8">
+    <div class="card col-10">
         <h5 class="card-header">Добавить товар</h5>
         <div class="card-body">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <form method="post" action="${pageContext.request.contextPath}/admins/products/add">
+                    <form method="post" enctype="multipart/form-data"
+                          action="${pageContext.request.contextPath}/admins/products/add">
                         <div class="form-row">
                             <label for="name" class="col-3">Наименование</label>
                             <div class="col-9">
@@ -36,10 +38,10 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <label for="image" class="col-3">Изображение</label>
-                            <div class="col-9">
-                                <input class="form-control" id="image" name="image"/>
-                            </div>
+                            <label>
+                                Изображение:
+                                <input type="file" name="file" accept="image/jpeg"/>
+                            </label>
                         </div>
                         <br/>
                         <button class="btn btn-primary col-2">

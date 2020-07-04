@@ -4,7 +4,6 @@
           xmlns:spring="http://www.springframework.org/tags"
           version="2.0">
 
-    <div class="col-10">
         <table class="table table-hover">
             <caption>Заказы</caption>
             <thead>
@@ -44,7 +43,7 @@
                         <th><c:out value="${index.count}"/></th>
                         <td>
                             <a href="${pageContext.request.contextPath}/products/${content.product.id}">
-                                <img src="${content.product.image}"
+                                <img src="${pageContext.request.contextPath}/products/image?name=${content.product.image}"
                                      alt="${content.product.name}" height="70"/>
                             </a>
                         </td>
@@ -64,5 +63,5 @@
         <form id="writeOff" method="get" action="${pageContext.request.contextPath}/admins/orders/writeOff">
             <button form="writeOff" type="submit" class="btn btn-primary">Списать товары</button>
         </form>
-    </div>
+
 </jsp:root>

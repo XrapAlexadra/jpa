@@ -5,7 +5,7 @@
           xmlns:spring="http://www.springframework.org/tags"
           version="2.0">
 
-    <div class="card col-5">
+    <div class="card col-7">
         <h5 class="card-header">Вход</h5>
         <div class="card-body">
             <div class="panel panel-default">

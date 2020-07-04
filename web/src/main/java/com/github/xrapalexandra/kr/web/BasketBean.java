@@ -42,16 +42,4 @@ public class BasketBean {
         }
         return false;
     }
-
-    public String saveImage(String image, Integer productId) {
-        try {
-            BufferedImage img = ImageIO.read(new URL(image));
-            String fileName = 1 + ".jpg";
-            File file = new File("src/main/java/com/github/xrapalexandra/kr/web/img", fileName);
-            ImageIO.write(img, "jpg", file);
-            return fileName;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

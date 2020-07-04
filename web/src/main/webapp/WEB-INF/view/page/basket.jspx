@@ -4,7 +4,7 @@
           xmlns:spring="http://www.springframework.org/tags"
           version="2.0">
 
-    <div class="col-10">
+
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="basket-tab" data-toggle="tab" href="#basket" role="tab"
@@ -44,7 +44,7 @@
                                     <td><c:out value="${index.count}"/></td>
                                     <td>
                                         <a href="${pageContext.request.contextPath}/products/${item.id}">
-                                            <img src="${item.image}" alt="${item.name}" height="70"/>
+                                            <img src="${pageContext.request.contextPath}/products/image?name=${item.image}" alt="${item.name}" height="70"/>
                                         </a>
                                     </td>
                                     <td>
@@ -108,7 +108,7 @@
                                     <th><c:out value="${index.count}"/></th>
                                     <td>
                                         <a href="${pageContext.request.contextPath}/products/${content.product.id}">
-                                            <img src="${content.product.image}" alt="${content.product.name}"
+                                            <img src="${pageContext.request.contextPath}/products/image?name=${content.product.image}" alt="${content.product.name}"
                                                  height="70"/>
                                         </a>
                                     </td>
@@ -127,5 +127,5 @@
                 </c:if>
             </div>
         </div>
-    </div>
+
 </jsp:root>

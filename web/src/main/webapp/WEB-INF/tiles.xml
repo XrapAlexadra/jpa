@@ -7,6 +7,7 @@
         <put-attribute name="header" value="/WEB-INF/view/common/header.jspx"/>
         <put-attribute name="menu" value="/WEB-INF/view/common/menu.jspx"/>
         <put-attribute name="body" value=""/>
+        <put-attribute name="pagination" value=""/>
         <put-attribute name="footer" value="/WEB-INF/view/common/footer.jspx"/>
     </definition>
 
@@ -20,6 +21,7 @@
 
     <definition name="productsList" extends="default">
         <put-attribute name="body" value="/WEB-INF/view/page/productsList.jspx"/>
+        <put-attribute name="pagination" value="/WEB-INF/view/page/pagination.jspx"/>
     </definition>
 
     <definition name="products" extends="default">
@@ -40,6 +42,7 @@
 
     <definition name="adminProductsList" extends="default">
         <put-attribute name="body" value="/WEB-INF/view/page/adminProductsList.jspx"/>
+        <put-attribute name="pagination" value="/WEB-INF/view/page/pagination.jspx"/>
     </definition>
 
     <definition name="adminBasket" extends="default">
