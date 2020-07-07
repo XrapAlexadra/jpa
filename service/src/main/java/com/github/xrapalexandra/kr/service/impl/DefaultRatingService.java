@@ -4,6 +4,8 @@ import com.github.xrapalexandra.kr.dao.RatingDao;
 import com.github.xrapalexandra.kr.model.Product;
 import com.github.xrapalexandra.kr.model.Rating;
 import com.github.xrapalexandra.kr.service.RatingService;
+
+
 import com.github.xrapalexandra.kr.service.util.ServiceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +19,7 @@ public class DefaultRatingService implements RatingService {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private RatingDao ratingDao;
+    private final RatingDao ratingDao;
 
     public DefaultRatingService(RatingDao ratingDao) {
         this.ratingDao = ratingDao;
@@ -35,11 +37,6 @@ public class DefaultRatingService implements RatingService {
         return rating.getId();
     }
 
-    @Override
-    public void delRating(Integer ratingId) {
-        ratingDao.delRating(ratingId);
-        logger.info("Delete {} from DataBase.", ratingId);
-    }
 
     @Override
     public Integer getAvrRatingByProduct(Product product) {

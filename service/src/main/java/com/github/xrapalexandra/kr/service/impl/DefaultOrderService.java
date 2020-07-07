@@ -21,8 +21,8 @@ public class DefaultOrderService implements OrderService {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static final int MAX_NUMBER_ORDER_ON_PAGE = 4;
 
-    private OrderDao orderDao;
-    private ProductDao productDao;
+    private final OrderDao orderDao;
+    private final ProductDao productDao;
 
     public DefaultOrderService(OrderDao orderDao, ProductDao productDao) {
         this.orderDao = orderDao;
@@ -68,7 +68,7 @@ public class DefaultOrderService implements OrderService {
             for (Order order : paidOrders) {
                 productDao.updateQuantityByOrder(order);
                 logger.info("Update products quantity with order id{}", order);
-                orderDao.delOrder(order.getId());
+                orderDao.deleteOrder(order.getId());
                 logger.info("{} delete from DataBase", order.getId());
             }
     }

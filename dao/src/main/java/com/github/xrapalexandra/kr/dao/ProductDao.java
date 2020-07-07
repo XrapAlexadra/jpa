@@ -9,11 +9,9 @@ import java.util.List;
 
 public interface ProductDao {
 
-    Integer addProduct(Product product);
+    Integer saveProduct(Product product);
 
-    Boolean updateProduct(Product product);
-
-    Boolean delProduct(Integer productId);
+    void deleteProduct(Integer productId);
 
     Product getProductById(Integer id);
 
@@ -22,4 +20,6 @@ public interface ProductDao {
     void updateQuantityByOrder(Order order);
 
     List<Product> getProductListByIds(List<Integer> ids);
+
+    Product getProductByName(String name);
 }

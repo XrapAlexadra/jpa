@@ -1,8 +1,7 @@
-package com.github.xrapalexandra.kr.web.controller.users;
+package com.github.xrapalexandra.kr.web.controller;
 
 import com.github.xrapalexandra.kr.model.Role;
 import com.github.xrapalexandra.kr.model.User;
-import com.github.xrapalexandra.kr.service.ShopAddressService;
 import com.github.xrapalexandra.kr.service.UserService;
 import com.github.xrapalexandra.kr.web.util.WebUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,35 +17,38 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.List;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 @Controller
 @RequestMapping
 public class UsersController {
 
-    private ShopAddressService shopAddressService;
-    private UserService userService;
+    private final UserService userService;
 
-    public UsersController(ShopAddressService shopAddressService, UserService userService) {
-        this.shopAddressService = shopAddressService;
+    public UsersController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping("/")
-    public ModelAndView getDefault() {
-        ModelAndView model = new ModelAndView();
-        model.setViewName("default");
-        return model;
+    private static final Map<Role, List<GrantedAuthority>> roles = new HashMap<>();
+
+    static {
+        roles.put(Role.ADMIN,Arrays.asList((GrantedAuthority) () -> "ROLE_ADMIN",
+                (GrantedAuthority) () -> "ROLE_USER"));
+        roles.put(Role.USER, Collections.singletonList((GrantedAuthority) () -> "ROLE_USER"));
     }
 
+    @GetMapping("/")
+    public String getDefault() {
+        return "default";
+    }
 
     @GetMapping("/login")
     public ModelAndView login(ModelAndView model) {
         if (!WebUtil.isAuthentication())
             model.setViewName("login");
         else
-            model.setViewName("login");
+            model.setViewName("default");
         return model;
     }
 
@@ -59,16 +61,10 @@ public class UsersController {
             model.put("error", "Неправильный логин или пароль.");
             return "message";
         }
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, getAuthorities());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, roles.get(user.getRole()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return "default";
     }
-
-    private List<GrantedAuthority> getAuthorities() {
-        return Arrays.asList((GrantedAuthority) () -> "ROLE_ADMIN",
-                (GrantedAuthority) () -> "ROLE_USER");
-    }
-
 
     @GetMapping("/auth")
     public ModelAndView authenticate(ModelAndView model) {
@@ -88,7 +84,7 @@ public class UsersController {
             model.put("error", "Пользователь с логином:" + login + " уже существует. Используйте другой логин.");
             return "message";
         }
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, getAuthorities());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, roles.get(user.getRole()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return "default";
     }
@@ -104,10 +100,9 @@ public class UsersController {
         model.setViewName("login");
         return model;
     }
-
-    @GetMapping("/shopAddresses")
-    public String getShopAddresses(ModelMap model) {
-        model.put("shop", shopAddressService.getShopAddressList());
-        return "shopAddresses";
-    }
+//
+//    @GetMapping("/users/delete")
+//    public String deleteUser(){
+//
+//    }
 }

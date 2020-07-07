@@ -30,8 +30,6 @@ public class RatingServiceTest {
     @InjectMocks
     private DefaultRatingService ratingService;
 
-
-
     @Test
     public void addRatingNull(){
         Product product = new Product("name", 12, 34);
@@ -57,9 +55,10 @@ public class RatingServiceTest {
         user.setId(10);
         Rating rating = new Rating(5, user, product);
         Integer ratingId = 12;
+        List<Rating> ratingList = new ArrayList<>();
 
         when(ratingDao.addRating(any())).thenReturn(ratingId);
-        when(ratingDao.getProductRating(any())).thenReturn(null);
+        when(ratingDao.getProductRating(any())).thenReturn(ratingList);
 
         assertEquals(ratingId, ratingService.addRating(rating));
     }

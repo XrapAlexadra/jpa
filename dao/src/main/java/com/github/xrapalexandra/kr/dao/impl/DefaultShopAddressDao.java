@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class DefaultShopAddressDao implements ShopAddressDao {
 
-    ShopAddressRepository repository;
+    private final ShopAddressRepository repository;
 
     public DefaultShopAddressDao(ShopAddressRepository repository) {
         this.repository = repository;
@@ -27,12 +27,6 @@ public class DefaultShopAddressDao implements ShopAddressDao {
     @Override
     public void delAddress(Integer shopAddressId) {
         repository.deleteById(shopAddressId);
-    }
-
-
-    @Override
-    public void updateAddress(ShopAddress shopAddress) {
-        repository.saveAndFlush(ShopAddressConverter.toEntity(shopAddress));
     }
 
     @Override

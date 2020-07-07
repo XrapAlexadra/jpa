@@ -12,6 +12,6 @@ public interface RatingRepository extends JpaRepository<RatingEntity, Integer> {
 
     List<RatingEntity> findByProductId(Integer productId);
 
-    @Query("select avg (mark) from RatingEntity where product = :product")
-    Double getAvgByProduct(@Param("product") ProductEntity productEntity);
+    @Query(value = "select q.a from (select r.product_id, avg (r.mark) a from rating r group by product_id) q where q.product_id = :productId", nativeQuery = true)
+    Double getAvgByProduct(@Param("productId") Integer productId);
 }

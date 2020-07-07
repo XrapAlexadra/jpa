@@ -7,7 +7,5 @@ public interface RatingService {
 
     Integer addRating(Rating rating);
 
-    void delRating(Integer ratingId);
-
     Integer getAvrRatingByProduct(Product product);
 }

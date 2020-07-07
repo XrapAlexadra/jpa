@@ -5,35 +5,20 @@ import com.github.xrapalexandra.kr.dao.converter.UserConverter;
 import com.github.xrapalexandra.kr.dao.entity.UserEntity;
 import com.github.xrapalexandra.kr.dao.repository.UserRepository;
 import com.github.xrapalexandra.kr.model.User;
-import org.hibernate.Session;
-import org.springframework.dao.DataAccessException;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
 
 public class DefaultUserDao implements UserDao {
 
-    private UserRepository repository;
-    private EntityManager entityManager;
+    private final UserRepository repository;
 
-    public DefaultUserDao(UserRepository repository, EntityManager entityManager) {
+    public DefaultUserDao(UserRepository repository) {
         this.repository = repository;
-        this.entityManager = entityManager;
     }
 
     @Override
     public Integer addUser(User user) {
         UserEntity userEntity = UserConverter.toEntity(user);
-        Session session = entityManager.unwrap(Session.class);
-        try {
-            session.save(userEntity);
-            session.getTransaction().commit();
-            return userEntity.getId();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-            return null;
-        }
+        repository.saveAndFlush(userEntity);
+        return userEntity.getId();
     }
 
     @Override
@@ -43,9 +28,8 @@ public class DefaultUserDao implements UserDao {
     }
 
     @Override
-    public Boolean delUser(Integer userId) {
-            repository.deleteById(userId);
-            return true;
+    public void deleteUser(Integer userId) {
+        repository.deleteById(userId);
     }
 
     @Override

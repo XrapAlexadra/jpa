@@ -1,4 +1,4 @@
-package com.github.xrapalexandra.kr.web.controller.users;
+package com.github.xrapalexandra.kr.web.controller;
 
 import com.github.xrapalexandra.kr.model.*;
 import com.github.xrapalexandra.kr.service.OrderService;
@@ -29,7 +29,7 @@ public class BasketController {
         this.productService = productService;
     }
 
-    @GetMapping("")
+    @GetMapping("/")
     public String getBasket(ModelMap model,
                             HttpSession session) {
         BasketBean basketBean = (BasketBean) session.getAttribute("basket");
@@ -66,8 +66,7 @@ public class BasketController {
                               @PathVariable Integer id) {
         BasketBean bean = BasketBean.get(session);
         bean.delProduct(id);
-
-        return "redirect:/basket";
+        return "redirect:/basket/";
     }
 
     @PostMapping("/add/{id}")

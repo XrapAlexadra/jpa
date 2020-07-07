@@ -26,15 +26,10 @@ public class DaoConfig {
     @Autowired
     private ProductRepository productRepository;
     @Autowired
-    private ProductPagingRepository productPagingRepository;
-    @Autowired
     private RatingRepository ratingRepository;
     @Autowired
     private OrdersRepository ordersRepository;
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
-    @Autowired
-    private OrdersPagingRepository ordersPagingRepository;
+
 
     @Bean
     public ShopAddressDao shopAddressDao() {
@@ -42,22 +37,22 @@ public class DaoConfig {
     }
 
     @Bean
-    public UserDao userDao(){
-        return new DefaultUserDao(userRepository, entityManagerFactory.createEntityManager());
+    public UserDao userDao() {
+        return new DefaultUserDao(userRepository);
     }
 
     @Bean
-    public ProductDao productDao(){
-        return  new DefaultProductDao(productRepository, productPagingRepository);
+    public ProductDao productDao() {
+        return new DefaultProductDao(productRepository);
     }
 
     @Bean
-    public RatingDao ratingDao(){
+    public RatingDao ratingDao() {
         return new DefaultRatingDao(ratingRepository);
     }
 
     @Bean
-    public OrderDao orderDao(){
-        return new DefaultOrderDao(ordersRepository, ordersPagingRepository);
+    public OrderDao orderDao() {
+        return new DefaultOrderDao(ordersRepository);
     }
 }

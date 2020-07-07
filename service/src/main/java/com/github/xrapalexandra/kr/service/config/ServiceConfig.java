@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ServiceConfig {
 
-    private DaoConfig daoConfig;
+    private final DaoConfig daoConfig;
 
     public ServiceConfig(DaoConfig daoConfig) {
         this.daoConfig = daoConfig;
@@ -37,6 +37,8 @@ public class ServiceConfig {
 
     @Bean
     public OrderService orderService(){
-        return new DefaultOrderService(daoConfig.orderDao(), daoConfig.productDao());
+        return new DefaultOrderService(
+                daoConfig.orderDao(),
+                daoConfig.productDao());
     }
 }

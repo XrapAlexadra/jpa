@@ -9,8 +9,6 @@ public interface RatingDao {
 
     Integer addRating(Rating rating);
 
-    Boolean delRating(Integer ratingId);
-
     Double getAvrRatingByProduct(Product product);
 
     List<Rating> getProductRating(Integer productId);

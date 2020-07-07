@@ -1,7 +1,8 @@
-package com.github.xrapalexandra.kr.web.controller.users;
+package com.github.xrapalexandra.kr.web.controller;
 
 import com.github.xrapalexandra.kr.model.Product;
 import com.github.xrapalexandra.kr.model.Rating;
+import com.github.xrapalexandra.kr.model.User;
 import com.github.xrapalexandra.kr.service.ProductService;
 import com.github.xrapalexandra.kr.service.RatingService;
 import com.github.xrapalexandra.kr.web.util.WebUtil;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +27,7 @@ public class ProductsController {
 
     private final String ROOT_PATH = "/opt/tomcat/temp/files/";
 
-    private ProductService productService;
+    private final ProductService productService;
     private RatingService ratingService;
 
     public ProductsController(ProductService productService, RatingService ratingService) {
@@ -52,11 +54,15 @@ public class ProductsController {
 
     @PostMapping("/{id}/addRating")
     public String addRating(ModelMap model,
-                            Rating rating,
-                            @PathVariable Integer productId) {
-        if (ratingService.addRating(rating) == null)
+                            @RequestParam("mark") Integer mark,
+                            @PathVariable Integer id) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Rating rating = new Rating(mark, user, productService.getProductById(id));
+        if (ratingService.addRating(rating) == null) {
             model.put("error", "Вы уже оценили этот товар.");
-        return "products";
+            return "message";
+        }
+        return "redirect:/products/" + id;
     }
 
     @GetMapping("/image")
@@ -73,7 +79,6 @@ public class ProductsController {
             headers.setContentType(MediaType.IMAGE_JPEG);
             headers.setContentLength(content.length);
             return new ResponseEntity<>(content, headers, HttpStatus.OK);
-
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -21,7 +21,7 @@
                     <a class="nav-link" href="${pageContext.request.contextPath}/products/list/1">Каталог</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/admins/shopAddresses/">Магазины</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/shopAddresses/">Магазины</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/basket/">Корзина</a>
@@ -49,7 +49,7 @@
                 <sec:authorize access="isAuthenticated()">
                     <nav class="navbar navbar-light bg-light">
                     <span class="navbar-text">
-                        Вы вошли как ${SPRING_SECURITY_LAST_USERNAME}
+                        Вы вошли как ${user.login}
                      </span>
                     </nav>
                     <form class="form-inline my-2 my-lg-0">

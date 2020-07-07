@@ -1,4 +1,4 @@
-package com.github.xrapalexandra.kr.web.controller.admins;
+package com.github.xrapalexandra.kr.web.controller;
 
 import com.github.xrapalexandra.kr.model.Product;
 import com.github.xrapalexandra.kr.service.ProductService;
@@ -34,37 +34,43 @@ public class AdminProductsController {
         model.setViewName("adminProductsList");
         return model;
     }
+
     @GetMapping("/add")
-    public String addProduct(ModelMap model){
+    public String addProduct() {
         return "addProducts";
     }
 
     @PostMapping("/add")
     public String addProduct(ModelMap model,
-                            @RequestParam("file") MultipartFile file,
-                            Product product) {
+                             @RequestParam("file") MultipartFile file,
+                             Product product) {
         String fileName = file.getOriginalFilename();
-
-            product.setImage(fileName);
-            if (productService.addProduct(product))
-                model.put("message", "Продукт успешно добавлен!");
-            else
-                model.put("error", "Невозможно добавить! Продукт с таким названием уже существует!");
-
-        processImage(file, fileName);
+        product.setImage(fileName);
+        if (productService.addProduct(product)) {
+            model.put("message", "Продукт успешно добавлен!");
+            processImage(file, fileName);
+        } else
+            model.put("error", "Невозможно добавить! Продукт с таким названием уже существует!");
         return "message";
-
     }
-//    @PostMapping("/upload")
 
     @PostMapping("/delete/{id}")
-    public String deleteProduct(ModelMap model, @PathVariable Integer id) {
-        if (!productService.delProduct(id))
-            model.put("error", "Невозможно удалить товар! Проверьте заказы!");
-        else
-            model.put("message", "Товар удален");
+    public String deleteProduct(ModelMap model, @PathVariable Integer id) throws Exception {
+        productService.deleteProduct(id);
+        model.put("message", "Товар удален");
         return "message";
     }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleAllException(Exception ex) {
+
+        ModelAndView model = new ModelAndView();
+        model.setViewName("message");
+        model.addObject("error", "this is Exception.class");
+
+        return model;
+    }
+
 
     @GetMapping("/update/{id}")
     public String updateProduct(ModelMap model, @PathVariable Integer id) {
@@ -78,16 +84,15 @@ public class AdminProductsController {
                                 Product product,
                                 @PathVariable Integer id,
                                 @RequestParam("file") MultipartFile file) {
-
         String fileName = file.getOriginalFilename();
         product.setId(id);
         product.setImage(fileName);
         if (!productService.updateProduct(product))
             model.put("error", "Невозможно изменить товар! Такой уже существует!");
-        else
+        else {
             model.put("message", "Товар изменен");
-
-        processImage(file, fileName);
+            processImage(file, fileName);
+        }
         return "message";
     }
 

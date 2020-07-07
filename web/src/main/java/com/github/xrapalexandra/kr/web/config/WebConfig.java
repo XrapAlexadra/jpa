@@ -1,12 +1,12 @@
 package com.github.xrapalexandra.kr.web.config;
 
 import com.github.xrapalexandra.kr.service.config.ServiceConfig;
-import com.github.xrapalexandra.kr.web.controller.admins.AdminProductsController;
-import com.github.xrapalexandra.kr.web.controller.admins.AdminOrdersController;
-import com.github.xrapalexandra.kr.web.controller.admins.ShopAddressesController;
-import com.github.xrapalexandra.kr.web.controller.users.BasketController;
-import com.github.xrapalexandra.kr.web.controller.users.ProductsController;
-import com.github.xrapalexandra.kr.web.controller.users.UsersController;
+import com.github.xrapalexandra.kr.web.controller.AdminProductsController;
+import com.github.xrapalexandra.kr.web.controller.AdminOrdersController;
+import com.github.xrapalexandra.kr.web.controller.ShopAddressesController;
+import com.github.xrapalexandra.kr.web.controller.BasketController;
+import com.github.xrapalexandra.kr.web.controller.ProductsController;
+import com.github.xrapalexandra.kr.web.controller.UsersController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -24,7 +24,7 @@ import java.util.Locale;
 @EnableWebMvc
 public class WebConfig {
 
-    private ServiceConfig serviceConfig;
+    private final ServiceConfig serviceConfig;
 
     public WebConfig(ServiceConfig serviceConfig) {
         this.serviceConfig = serviceConfig;
@@ -57,9 +57,8 @@ public class WebConfig {
 
     @Bean
     public UsersController usersController() {
-        return new UsersController(serviceConfig.shopAddressService(), serviceConfig.userService());
+        return new UsersController (serviceConfig.userService());
     }
-
 
     @Bean
     public UrlBasedViewResolver tilesViewResolver(){

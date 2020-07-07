@@ -11,7 +11,7 @@ public interface OrderService {
 
     List<OrderContent> createOrderContent(List<Integer> productIdList, Integer[] quantities);
 
-     void addOrder(Order order);
+    void addOrder(Order order);
 
     List<Order> getUserOrders(String login);
 

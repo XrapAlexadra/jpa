@@ -10,7 +10,5 @@ public interface ShopAddressService {
 
     void delAddress(Integer shopAddressId);
 
-    void updateAddress(ShopAddress newShopAddress);
-
     List<ShopAddress> getShopAddressList();
 }

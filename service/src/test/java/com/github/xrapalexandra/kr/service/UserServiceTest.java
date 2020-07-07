@@ -24,10 +24,24 @@ public class UserServiceTest {
     @InjectMocks
     private DefaultUserService userService;
 
+    @Test
+    void addUserNotExist(){
+        User user = new User("login221", Role.USER, "12345678");
+        when(userDao.getByLogin(any())).thenReturn(null);
+        when(userDao.addUser(any())).thenReturn(225);
+        assertEquals(225, userService.addUser(user).getId());
+    }
+    @Test
+    void addUserAlreadyExist(){
+        User user1 = new User("login221", Role.USER, "12345678");
+        User user2 = new User("login221", Role.USER, "1234");
+        when(userDao.getByLogin(any())).thenReturn(user2);
+        assertNull( userService.addUser(user1));
+    }
 
     @Test
     void login(){
-        User user = new User("qwerty", Role.USER, "123456");
+        User user = new User("lgin222", Role.USER, "123456");
         when(userDao.getByLogin(any())).thenReturn(user);
         assertEquals(user, userService.logIn(user.getLogin(), user.getPass()));
     }
@@ -44,6 +58,4 @@ public class UserServiceTest {
         when(userDao.getByLogin(any())).thenReturn(null);
         assertNull(userService.logIn("qwerty", "123456"));
     }
-
-
 }

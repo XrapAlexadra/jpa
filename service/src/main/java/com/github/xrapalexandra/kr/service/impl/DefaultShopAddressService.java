@@ -15,7 +15,7 @@ public class DefaultShopAddressService implements ShopAddressService {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private ShopAddressDao shopAddressDao;
+    private final ShopAddressDao shopAddressDao;
 
     public DefaultShopAddressService(ShopAddressDao shopAddressDao) {
         this.shopAddressDao = shopAddressDao;
@@ -32,12 +32,6 @@ public class DefaultShopAddressService implements ShopAddressService {
     public void delAddress(Integer shopAddressId) {
         shopAddressDao.delAddress(shopAddressId);
         logger.info("Delete {} from DataBase.", shopAddressId);
-    }
-
-    @Override
-    public void updateAddress(ShopAddress newShopAddress) {
-        shopAddressDao.updateAddress(newShopAddress);
-        logger.info("Update in DataBase to {}", newShopAddress);
     }
 
     @Override

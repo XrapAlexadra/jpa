@@ -17,7 +17,7 @@ public class DefaultProductService implements ProductService {
     private static final int MAX_NUMBER_PRODUCT_ON_PAGE = 8;
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private ProductDao productDao;
+    private final ProductDao productDao;
 
     public DefaultProductService(ProductDao productDao) {
         this.productDao = productDao;
@@ -35,39 +35,38 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public Boolean addProduct(Product product) {
-        product.setId(productDao.addProduct(product));
-        if (product.getId() == null) {
-            logger.info("{} is already exist in database", product);
-            return false;
-        } else {
+        if (productDao.getProductByName(product.getName()) == null) {
+            product.setId(productDao.saveProduct(product));
             logger.info("{} add in database (products).", product);
             return true;
+        } else {
+            logger.info("{} is already exist in database", product);
+            return false;
         }
     }
 
     @Override
     public Boolean updateProduct(Product product) {
-        Boolean result = productDao.updateProduct(product);
-        if (!result)
-            logger.info("{} is already exist in database.", product.getName());
-        else
+        Product productFromBd = productDao.getProductByName(product.getName());
+        if (productFromBd == null || productFromBd.getId().equals(product.getId())) {
+            productDao.saveProduct(product);
             logger.info("{} update in database.", product);
-        return result;
+            return true;
+        } else {
+            logger.info("{} is already exist in database.", product.getName());
+            return false;
+        }
     }
 
     @Override
-    public Boolean delProduct(Integer productId) {
-        Boolean result = productDao.delProduct(productId);
-        if (!result)
-            logger.info("product {} don't delete from database", productId);
-        else
-            logger.info("Delete product with ID: {} from database.", productId);
-        return result;
+    public void deleteProduct(Integer productId) {
+        productDao.deleteProduct(productId);
+        logger.info("Delete product with ID: {} from database.", productId);
+
     }
 
     @Override
     public Product getProductById(int product_id) {
         return productDao.getProductById(product_id);
     }
-
 }

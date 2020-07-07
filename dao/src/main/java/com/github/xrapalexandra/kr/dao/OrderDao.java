@@ -10,7 +10,7 @@ public interface OrderDao {
 
     Integer addOrder(Order order);
 
-    void delOrder(Integer orderId);
+    void deleteOrder(Integer orderId);
 
     Page<Order> getAllOrders(int page, int number);
 
@@ -19,6 +19,4 @@ public interface OrderDao {
     void changeOrderStatus(Integer orderId, Status status);
 
     List<Order> getPaidOrders();
-
-    Integer getPageCount(int number);
 }

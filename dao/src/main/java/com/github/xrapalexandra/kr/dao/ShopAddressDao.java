@@ -10,7 +10,5 @@ public interface ShopAddressDao {
 
     void delAddress(Integer shopAddressId);
 
-    void updateAddress(ShopAddress newShopAddress);
-
     List<ShopAddress> getAddressList();
 }

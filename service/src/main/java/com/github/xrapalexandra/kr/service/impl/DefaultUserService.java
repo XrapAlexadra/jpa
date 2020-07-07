@@ -13,7 +13,7 @@ import java.lang.invoke.MethodHandles;
 public class DefaultUserService implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private UserDao userDao;
+    private final UserDao userDao;
 
     public DefaultUserService(UserDao userDao) {
         this.userDao = userDao;
@@ -21,13 +21,13 @@ public class DefaultUserService implements UserService {
 
     @Override
     public User addUser(User user) {
-        user.setId(userDao.addUser(user));
-        if (user.getId() == null) {
-            logger.info("Can't save user: {} in the table users, because user with this login is already exist!", user.getLogin());
-            return null;
-        } else {
+        if (userDao.getByLogin(user.getLogin()) == null) {
+            user.setId(userDao.addUser(user));
             logger.info("Save user: {} in table users.", user.getLogin());
             return user;
+        } else {
+            logger.info("Can't save user: {} in the table users, because user with this login is already exist!", user.getLogin());
+            return null;
         }
     }
 
