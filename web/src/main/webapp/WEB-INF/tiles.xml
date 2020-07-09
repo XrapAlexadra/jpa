@@ -11,52 +11,53 @@
         <put-attribute name="footer" value="/WEB-INF/view/common/footer.jspx"/>
     </definition>
 
+    <definition name="welcome" extends="default"/>
+
     <definition name="login" extends="default">
-        <put-attribute name="body" value="/WEB-INF/view/page/login.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/view/user/login.jspx"/>
     </definition>
 
     <definition name="auth" extends="default">
-        <put-attribute name="body" value="/WEB-INF/view/page/auth.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/view/user/auth.jspx"/>
     </definition>
 
     <definition name="products" extends="default">
-        <put-attribute name="body" value="/WEB-INF/view/page/products.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/view/general/product.jspx"/>
     </definition>
 
     <definition name="shopAddresses" extends="default">
-        <put-attribute name="body" value="/WEB-INF/view/page/shopAddresses.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/view/general/shopAddress.jspx"/>
     </definition>
 
-    <definition name="changeProducts" extends="default">
-        <put-attribute name="body" value="/WEB-INF/view/page/changeProducts.jspx"/>
+    <definition name="admins/changeProducts" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/admin/changeProduct.jspx"/>
     </definition>
 
     <definition name="basket" extends="default">
-        <put-attribute name="body" value="/WEB-INF/view/page/basket.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/view/user/basket.jspx"/>
     </definition>
 
-    <definition name="addProducts" extends="default">
-        <put-attribute name="body" value="/WEB-INF/view/page/addProducts.jspx"/>
+    <definition name="admins/addProducts" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/admin/addProduct.jspx"/>
     </definition>
 
-    <definition name="message" extends="default">
-        <put-attribute name="body" value="/WEB-INF/view/page/message.jspx"/>
+    <definition name="messages" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/general/message.jspx"/>
     </definition>
-
 
     <definition name="pagination" extends="default">
-        <put-attribute name="pagination" value="/WEB-INF/view/page/pagination.jspx"/>
+        <put-attribute name="pagination" value="/WEB-INF/view/general/pagination.jspx"/>
     </definition>
 
-    <definition name="adminBasket" extends="pagination">
-        <put-attribute name="body" value="/WEB-INF/view/page/adminBasket.jspx"/>
+    <definition name="admins/basket" extends="pagination">
+        <put-attribute name="body" value="/WEB-INF/view/admin/basket.jspx"/>
     </definition>
 
-    <definition name="adminProductsList" extends="pagination">
-        <put-attribute name="body" value="/WEB-INF/view/page/adminProductsList.jspx"/>
+    <definition name="admins/productsList" extends="pagination">
+        <put-attribute name="body" value="/WEB-INF/view/admin/productList.jspx"/>
     </definition>
 
     <definition name="productsList" extends="pagination">
-        <put-attribute name="body" value="/WEB-INF/view/page/productsList.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/view/general/productList.jspx"/>
     </definition>
 </tiles-definitions>

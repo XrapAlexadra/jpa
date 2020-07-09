@@ -24,7 +24,7 @@ public class RootConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/assets/**").addResourceLocations("/assests/");
+        registry.addResourceHandler("/assests/**").addResourceLocations("/assests/");
     }
 
 }

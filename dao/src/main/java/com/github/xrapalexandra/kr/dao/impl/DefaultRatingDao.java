@@ -1,9 +1,7 @@
 package com.github.xrapalexandra.kr.dao.impl;
 
 import com.github.xrapalexandra.kr.dao.RatingDao;
-import com.github.xrapalexandra.kr.dao.converter.ProductConverter;
 import com.github.xrapalexandra.kr.dao.converter.RatingConverter;
-import com.github.xrapalexandra.kr.dao.entity.ProductEntity;
 import com.github.xrapalexandra.kr.dao.entity.RatingEntity;
 import com.github.xrapalexandra.kr.dao.repository.RatingRepository;
 import com.github.xrapalexandra.kr.model.Product;

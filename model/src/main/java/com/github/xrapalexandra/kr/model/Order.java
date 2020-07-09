@@ -49,4 +49,14 @@ public class Order {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", user=" + user +
+                ", contentList=" + contentList +
+                ", status=" + status +
+                '}';
+    }
 }

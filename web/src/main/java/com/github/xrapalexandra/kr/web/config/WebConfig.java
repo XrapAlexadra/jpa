@@ -31,6 +31,11 @@ public class WebConfig {
     }
 
     @Bean
+    public GeneralController generalController() {
+        return new GeneralController();
+    }
+
+    @Bean
     public AdminProductController adminProductController() {
         return new AdminProductController(serviceConfig.productService());
     }
@@ -61,14 +66,14 @@ public class WebConfig {
     }
 
     @Bean
-    public UrlBasedViewResolver tilesViewResolver(){
+    public UrlBasedViewResolver tilesViewResolver() {
         UrlBasedViewResolver resolver = new UrlBasedViewResolver();
         resolver.setViewClass(TilesView.class);
         return resolver;
     }
 
     @Bean
-    public TilesConfigurer tilesConfigurer(){
+    public TilesConfigurer tilesConfigurer() {
         final TilesConfigurer tilesConfigurer = new TilesConfigurer();
         tilesConfigurer.setDefinitions("/WEB-INF/tiles.xml");
         tilesConfigurer.setCheckRefresh(true);
