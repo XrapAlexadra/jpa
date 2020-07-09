@@ -13,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
@@ -22,11 +23,11 @@ import java.util.*;
 
 @Controller
 @RequestMapping
-public class UsersController {
+public class UserController {
 
     private final UserService userService;
 
-    public UsersController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -100,9 +101,9 @@ public class UsersController {
         model.setViewName("login");
         return model;
     }
-//
-//    @GetMapping("/users/delete")
-//    public String deleteUser(){
-//
-//    }
+    @GetMapping("/error")
+    public String NotFoundPage(ModelMap model) {
+        model.put("error", "Непредвиденная ошибка");
+        return "message";
+    }
 }

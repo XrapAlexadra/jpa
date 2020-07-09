@@ -1,12 +1,7 @@
 package com.github.xrapalexandra.kr.web.config;
 
 import com.github.xrapalexandra.kr.service.config.ServiceConfig;
-import com.github.xrapalexandra.kr.web.controller.AdminProductsController;
-import com.github.xrapalexandra.kr.web.controller.AdminOrdersController;
-import com.github.xrapalexandra.kr.web.controller.ShopAddressesController;
-import com.github.xrapalexandra.kr.web.controller.BasketController;
-import com.github.xrapalexandra.kr.web.controller.ProductsController;
-import com.github.xrapalexandra.kr.web.controller.UsersController;
+import com.github.xrapalexandra.kr.web.controller.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -31,18 +26,23 @@ public class WebConfig {
     }
 
     @Bean
-    public AdminProductsController adminProductsController() {
-        return new AdminProductsController(serviceConfig.productService());
+    public GlobalExceptionHandler globalExceptionHandler() {
+        return new GlobalExceptionHandler();
     }
 
     @Bean
-    public AdminOrdersController ordersController() {
-        return new AdminOrdersController(serviceConfig.orderService());
+    public AdminProductController adminProductController() {
+        return new AdminProductController(serviceConfig.productService());
     }
 
     @Bean
-    public ShopAddressesController shopAddressesController() {
-        return new ShopAddressesController(serviceConfig.shopAddressService());
+    public AdminOrderController orderController() {
+        return new AdminOrderController(serviceConfig.orderService());
+    }
+
+    @Bean
+    public ShopAddressController shopAddressController() {
+        return new ShopAddressController(serviceConfig.shopAddressService());
     }
 
     @Bean
@@ -51,13 +51,13 @@ public class WebConfig {
     }
 
     @Bean
-    public ProductsController productsController() {
-        return new ProductsController(serviceConfig.productService(), serviceConfig.ratingService());
+    public ProductController productController() {
+        return new ProductController(serviceConfig.productService(), serviceConfig.ratingService());
     }
 
     @Bean
-    public UsersController usersController() {
-        return new UsersController (serviceConfig.userService());
+    public UserController userController() {
+        return new UserController(serviceConfig.userService());
     }
 
     @Bean

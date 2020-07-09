@@ -23,21 +23,21 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("/products")
-public class ProductsController {
+public class ProductController {
 
     private final String ROOT_PATH = "/opt/tomcat/temp/files/";
 
     private final ProductService productService;
     private RatingService ratingService;
 
-    public ProductsController(ProductService productService, RatingService ratingService) {
+    public ProductController(ProductService productService, RatingService ratingService) {
         this.productService = productService;
         this.ratingService = ratingService;
     }
 
     @GetMapping("/list/{page}")
     public ModelAndView getProductsPage(@PathVariable Integer page) {
-        Page<Product> productPage = productService.getProductsPage(page);
+        Page<Product> productPage = productService.getProductsPage(page-1);
         ModelAndView model = WebUtil.fillInModel(productPage);
         model.addObject("address", "/products/list/");
         model.setViewName("productsList");
@@ -47,7 +47,11 @@ public class ProductsController {
     @GetMapping("/{id}")
     public String getProducts(ModelMap model, @PathVariable Integer id) {
         Product product = productService.getProductById(id);
-        model.put("product", productService.getProductById(id));
+        if(product == null) {
+            model.put("error", "Запрашиваемая страница не найдена.");
+            return "message";
+        }
+        model.put("product", product);
         model.put("mark", ratingService.getAvrRatingByProduct(product));
         return "products";
     }

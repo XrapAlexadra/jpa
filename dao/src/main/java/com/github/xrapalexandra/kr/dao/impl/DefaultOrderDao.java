@@ -41,7 +41,7 @@ public class DefaultOrderDao implements OrderDao {
 
     @Override
     public Page<Order> getAllOrders(int page, int number) {
-        Page<OrderEntity> orderEntityPage = repository.findAll(PageRequest.of(page-1, number, Sort.by("id")));
+        Page<OrderEntity> orderEntityPage = repository.findAll(PageRequest.of(page, number, Sort.by("id")));
         return orderEntityPage
                 .map(OrderConverter::fromEntity);
     }

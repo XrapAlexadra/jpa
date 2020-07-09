@@ -45,6 +45,7 @@
                                 Изображение:
                                 <input type="file" name="file" accept="image/jpeg"/>
                             </label>
+                            <input hidden="hidden" type="hidden" name="image" value="${product.image}"/>
                         </div>
                         <br/>
 

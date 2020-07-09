@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
 
-    <link rel="stylesheet" href="/assests/Footer.css" type="text/css"/>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assests/css/style.css" type="text/css">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
@@ -26,41 +26,7 @@
         crossorigin="anonymous"></script>
     ]]>
     <title>web</title>
-    <style>
-        .parent{
-            position: relative;
 
-        }
-        .first{
-            background: url(/assests/image/stars.png) no-repeat -140px -199px; width: 145px; height: 190px
-        }
-        .second{
-            background: url(/assests/image/stars.png) no-repeat -434px -597px; width: 145px; height: 190px
-        }
-        .third{
-            background: url(/assests/image/stars.png) no-repeat -289px -1393px; width: 145px; height: 190px
-        }
-        .parent div:first-child
-        {
-            position: absolute;
-        }
-        .parent div:nth-child(2)
-        {
-            position: absolute;
-            left: 36px;
-        }
-        .parent div:last-child
-        {
-            position: absolute;
-            left: 72px;
-        }
-        .parent div{
-            border-radius: 25px;
-        }
-        .parent div:hover{
-            z-index: 9;
-        }
-    </style>
 </head>
 
 <body>

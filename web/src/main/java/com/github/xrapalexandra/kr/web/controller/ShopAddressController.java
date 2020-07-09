@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/shopAddresses")
-public class ShopAddressesController {
+public class ShopAddressController {
 
     private ShopAddressService shopAddressService;
 
-    public ShopAddressesController(ShopAddressService shopAddressService) {
+    public ShopAddressController(ShopAddressService shopAddressService) {
         this.shopAddressService = shopAddressService;
     }
 

@@ -4,6 +4,7 @@ import com.github.xrapalexandra.kr.model.Product;
 import com.github.xrapalexandra.kr.service.ProductService;
 import com.github.xrapalexandra.kr.web.util.WebUtil;
 import org.apache.commons.io.FileUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,19 +17,19 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("/admins/products")
-public class AdminProductsController {
+public class AdminProductController {
 
     private final String ROOT_PATH = "/opt/tomcat/temp/files/";
 
     private ProductService productService;
 
-    public AdminProductsController(ProductService productService) {
+    public AdminProductController(ProductService productService) {
         this.productService = productService;
     }
 
     @GetMapping("/list/{page}")
     public ModelAndView getProductsPage(@PathVariable Integer page) {
-        Page<Product> productPage = productService.getProductsPage(page);
+        Page<Product> productPage = productService.getProductsPage(page - 1);
         ModelAndView model = WebUtil.fillInModel(productPage);
         model.addObject("address", "/admins/products/list/");
         model.setViewName("adminProductsList");
@@ -43,7 +44,7 @@ public class AdminProductsController {
     @PostMapping("/add")
     public String addProduct(ModelMap model,
                              @RequestParam("file") MultipartFile file,
-                             Product product) {
+                             Product product){
         String fileName = file.getOriginalFilename();
         product.setImage(fileName);
         if (productService.addProduct(product)) {
@@ -55,26 +56,28 @@ public class AdminProductsController {
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteProduct(ModelMap model, @PathVariable Integer id) throws Exception {
+    public String deleteProduct(ModelMap model, @PathVariable Integer id){
         productService.deleteProduct(id);
         model.put("message", "Товар удален");
         return "message";
     }
 
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleAllException(Exception ex) {
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ModelAndView handleDataException(DataIntegrityViolationException ex) {
 
         ModelAndView model = new ModelAndView();
         model.setViewName("message");
-        model.addObject("error", "this is Exception.class");
-
+        model.addObject("error", "Невозможно удалить товар. Проверьте заказы.");
         return model;
     }
-
 
     @GetMapping("/update/{id}")
     public String updateProduct(ModelMap model, @PathVariable Integer id) {
         Product product = productService.getProductById(id);
+        if (product == null) {
+            model.put("error", "Запрашиваемая страница не найдена.");
+            return "message";
+        }
         model.put("product", product);
         return "changeProducts";
     }
@@ -84,14 +87,16 @@ public class AdminProductsController {
                                 Product product,
                                 @PathVariable Integer id,
                                 @RequestParam("file") MultipartFile file) {
-        String fileName = file.getOriginalFilename();
+        if (file.getSize() != 0) {
+            String fileName = file.getOriginalFilename();
+            product.setImage(fileName);
+            processImage(file, fileName);
+        }
         product.setId(id);
-        product.setImage(fileName);
         if (!productService.updateProduct(product))
             model.put("error", "Невозможно изменить товар! Такой уже существует!");
         else {
             model.put("message", "Товар изменен");
-            processImage(file, fileName);
         }
         return "message";
     }
@@ -101,9 +106,10 @@ public class AdminProductsController {
             if (image != null && !image.isEmpty()) {
                 validateImage(image);
                 saveImage(fileName, image);
+                throw new IOException();
             }
         } catch (IOException e) {
-            //Error handling
+            throw new RuntimeException("Возникла ошибка при загрузке файла.");
         }
     }
 

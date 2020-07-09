@@ -9,17 +9,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/admins/orders")
-public class AdminOrdersController {
+public class AdminOrderController {
 
     private OrderService orderService;
 
-    public AdminOrdersController(OrderService orderService) {
+    public AdminOrderController(OrderService orderService) {
         this.orderService = orderService;
     }
 
     @GetMapping("/{page}")
     public ModelAndView getOrders(@PathVariable Integer page){
-        ModelAndView model = WebUtil.fillInModel(orderService.getAllOrders(page));
+        ModelAndView model = WebUtil.fillInModel(orderService.getAllOrders(page-1));
         model.addObject("address", "/admins/orders/");
         model.setViewName("adminBasket");
         return model;
