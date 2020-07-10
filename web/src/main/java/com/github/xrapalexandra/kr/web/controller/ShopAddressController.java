@@ -48,7 +48,6 @@ public class ShopAddressController {
             shopAddressService.delAddress(i);
             logger.info("Delete shopAddress: {}.", i);
         }
-
         return "redirect:/shopAddresses/";
     }
 }

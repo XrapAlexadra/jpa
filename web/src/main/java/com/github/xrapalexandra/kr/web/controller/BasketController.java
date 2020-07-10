@@ -1,12 +1,10 @@
 package com.github.xrapalexandra.kr.web.controller;
 
+import com.github.xrapalexandra.kr.model.Basket;
 import com.github.xrapalexandra.kr.model.Order;
-import com.github.xrapalexandra.kr.model.OrderContent;
-import com.github.xrapalexandra.kr.model.Status;
 import com.github.xrapalexandra.kr.model.User;
 import com.github.xrapalexandra.kr.service.OrderService;
 import com.github.xrapalexandra.kr.service.ProductService;
-import com.github.xrapalexandra.kr.web.BasketBean;
 import com.github.xrapalexandra.kr.web.util.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,9 +34,9 @@ public class BasketController {
     @GetMapping("/")
     public String getBasket(ModelMap model,
                             HttpSession session) {
-        BasketBean basketBean = (BasketBean) session.getAttribute("basket");
-        if (basketBean != null)
-            model.put("basket", productService.getProductListByIds(basketBean.getOrders()));
+        Basket basket = (Basket) session.getAttribute("basket");
+        if (basket != null)
+            model.put("basket", productService.getProductListByIds(basket.getOrdersIds()));
         if (WebUtil.isAuthentication()) {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             List<Order> orderInProcess = orderService.getUserOrders(user.getLogin());
@@ -55,12 +53,9 @@ public class BasketController {
             model.put("error", "Авторизируйтесь, чтобы сделать заказ.");
             return "messages";
         }
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        BasketBean bean = (BasketBean) session.getAttribute("basket");
-        List<OrderContent> orderContentList = orderService.createOrderContent(bean.getOrders(), quantities);
-        Order order = new Order(user, orderContentList, Status.ORDER);
-        orderService.addOrder(order);
-        logger.info("Add order: {}", order);
+        Basket basket = (Basket) session.getAttribute("basket");
+        orderService.addOrder(basket.createOrderСatalog(quantities));
+        logger.info("Add order with products: {}", basket.getOrdersIds());
         session.removeAttribute("basket");
         model.put("message", "Заказ создан.");
         return "messages";
@@ -69,8 +64,8 @@ public class BasketController {
     @PostMapping("/delete/{id}")
     public String deleteOrder(HttpSession session,
                               @PathVariable Integer id) {
-        BasketBean bean = BasketBean.get(session);
-        bean.delProduct(id);
+        Basket basket = (Basket) session.getAttribute("basket");
+        basket.delProduct(id);
         logger.info("Delete product: {} from basket.", id);
         return "redirect:/basket/";
     }
@@ -78,8 +73,13 @@ public class BasketController {
     @PostMapping("/add/{id}")
     public String addToOrder(HttpSession session,
                              @PathVariable Integer id) {
-        BasketBean bean = BasketBean.get(session);
-        bean.addProductId(id);
+        Basket basket;
+        if (session.getAttribute("basket") == null)
+            basket = new Basket();
+        else
+            basket = (Basket) session.getAttribute("basket");
+        basket.addProductId(id);
+        session.setAttribute("basket", basket);
         logger.info("Add product: {} in basket", id);
         return "redirect:/products/" + id;
     }

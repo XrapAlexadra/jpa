@@ -1,17 +1,15 @@
 package com.github.xrapalexandra.kr.service;
 
 import com.github.xrapalexandra.kr.model.Order;
-import com.github.xrapalexandra.kr.model.OrderContent;
 import com.github.xrapalexandra.kr.model.Status;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrderService {
 
-    List<OrderContent> createOrderContent(List<Integer> productIdList, Integer[] quantities);
-
-    void addOrder(Order order);
+    void addOrder(Map<Integer, Integer> orderСatalog);
 
     List<Order> getUserOrders(String login);
 

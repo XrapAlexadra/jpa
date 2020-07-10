@@ -19,7 +19,7 @@
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="basket" role="tabpanel" aria-labelledby="basket-tab">
                 <c:choose>
-                    <c:when test="${sessionScope.basket.orders.size()==0 || sessionScope.basket == null}">
+                    <c:when test="${sessionScope.basket.ordersIds.size()==0 || sessionScope.basket == null}">
                         <div class="alert alert-primary" role="alert">
                             Ваша корзина пуста
                         </div>

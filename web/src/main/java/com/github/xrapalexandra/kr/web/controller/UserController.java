@@ -64,7 +64,7 @@ public class UserController {
         logger.info("User: {} login", login);
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, roles.get(user.getRole()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "welcome";
+        return "redirect:/";
     }
 
     @GetMapping("/auth")
@@ -89,7 +89,7 @@ public class UserController {
         logger.info("Authorize user with login: {}.", login);
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, roles.get(user.getRole()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "welcome";
+        return "redirect:/";
     }
 
     @GetMapping("/exit")

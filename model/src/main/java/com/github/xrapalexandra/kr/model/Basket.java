@@ -1,18 +1,13 @@
 package com.github.xrapalexandra.kr.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Basket {
 
-    private List<Integer> basket = new ArrayList<>();
-
-    public static Basket getBasket(Basket basket) {
-        if (basket == null) {
-            basket = new Basket();
-        }
-        return basket;
-    }
+    private final List<Integer> basket = new ArrayList<>();
 
     public void addProductId(int productId){
         if (!isExist(productId))
@@ -23,8 +18,16 @@ public class Basket {
         basket.remove(productId);
     }
 
-    public List<Integer> getOrders(){
+    public List<Integer> getOrdersIds(){
         return new ArrayList<>(basket);
+    }
+
+    public Map<Integer, Integer> createOrderСatalog(Integer[] quantities){
+        Map<Integer, Integer> order = new HashMap<>();
+        for(int i = 0; i < basket.size(); i++){
+            order.put(basket.get(i), quantities[i]);
+        }
+        return order;
     }
 
     private Boolean isExist(int item){
@@ -34,4 +37,5 @@ public class Basket {
         }
         return false;
     }
+
 }

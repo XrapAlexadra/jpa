@@ -2,18 +2,18 @@ package com.github.xrapalexandra.kr.service.impl;
 
 import com.github.xrapalexandra.kr.dao.OrderDao;
 import com.github.xrapalexandra.kr.dao.ProductDao;
-import com.github.xrapalexandra.kr.model.Order;
-import com.github.xrapalexandra.kr.model.OrderContent;
-import com.github.xrapalexandra.kr.model.Status;
+import com.github.xrapalexandra.kr.model.*;
 import com.github.xrapalexandra.kr.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Transactional
 public class DefaultOrderService implements OrderService {
@@ -30,17 +30,19 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-    public void addOrder(Order order) {
+    public void addOrder(Map<Integer, Integer> orderCatalog) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<OrderContent> orderContentList = createOrderContent(orderCatalog);
+        Order order = new Order(user, orderContentList, Status.ORDER);
         order.setId(orderDao.addOrder(order));
         logger.info("{} add into DataBase", order);
     }
 
-    @Override
-    public List<OrderContent> createOrderContent(List<Integer> productIdList,  Integer[] quantities) {
+    private List<OrderContent> createOrderContent(Map<Integer, Integer> orderCatalog) {
         List<OrderContent> orderContentList = new ArrayList<>();
-        for (int i = 0; i < productIdList.size(); i++)
+        for (Map.Entry<Integer, Integer> i: orderCatalog.entrySet())
             orderContentList.add(
-                    new OrderContent(productDao.getProductById(productIdList.get(i)),quantities[i])
+                    new OrderContent(productDao.getProductById(i.getKey()),i.getValue())
             );
       return orderContentList;
     }

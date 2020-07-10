@@ -25,16 +25,5 @@ class OrderServiceTest {
     @InjectMocks
     private DefaultOrderService orderService;
 
-    @Test
-    void createOrderContent(){
-        List<Integer> productsIdsList = new ArrayList<>();
-        productsIdsList.add(12);
-        Integer[] quantities = {2};
-
-        Product product = new Product("item452", 45, 23);
-        when(productDao.getProductById(any())).thenReturn(product);
-
-        assertNotNull(orderService.createOrderContent(productsIdsList, quantities));
-    }
 
 }
