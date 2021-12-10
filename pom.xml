@@ -28,7 +28,7 @@
         <spring-test.version>5.2.1.RELEASE</spring-test.version>
         <cobertura.version>2.1.1</cobertura.version>
         <slf4j-api.version>1.7.28</slf4j-api.version>
-        <log4j-core.version>2.12.1</log4j-core.version>
+        <log4j-core.version>2.15.0</log4j-core.version>
         <spring-webmvc.version>5.2.1.RELEASE</spring-webmvc.version>
     </properties>
 
